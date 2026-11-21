@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Évaluation formative — Le paiement (3e et 4e EQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f172a;
+  --navy-light: #1e293b;
+  --slate: #334155;
+  --slate-mid: #64748b;
+  --slate-light: #94a3b8;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+  --blue-pale: #dbeafe;
+  --blue-bg: #eff6ff;
+  --green: #16a34a;
+  --green-pale: #dcfce7;
+  --red: #dc2626;
+  --red-pale: #fee2e2;
+  --orange: #ea580c;
+  --orange-pale: #fff7ed;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body); color: var(--navy); font-size: 16px; line-height: 1.55;
+  background: linear-gradient(180deg, #e6efff 0, #f8fafc 360px) no-repeat, #f8fafc;
+  min-height: 100vh;
+}
+button { font-family: inherit; font-size: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* ===== HEADER ===== */
+.app-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); box-shadow: var(--shadow-sm); }
+.header-inner { max-width: 860px; margin: 0 auto; padding: 10px 16px; display: flex;
+  align-items: center; justify-content: space-between; gap: 12px; }
+.h-left { min-width: 0; }
+.h-title { font-weight: 800; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 480px) { .h-title-extra { display: none; } }
+.h-email { font-size: 12.5px; color: var(--slate-mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.h-right { display: flex; align-items: center; gap: 8px; flex: none; }
+.timer { font-family: var(--font-mono); font-size: 14px; background: var(--gray-100);
+  border: 1px solid var(--gray-200); padding: 5px 10px; border-radius: 999px; }
+.btn-pause { border: 1px solid var(--gray-300); background: #fff; border-radius: 999px;
+  padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--slate); }
+.btn-pause:hover { border-color: var(--blue-light); color: var(--blue); }
+.progress { height: 4px; background: var(--gray-200); }
+.progress-fill { height: 100%; width: 0; background: var(--blue); transition: width .35s ease; }
+
+main { max-width: 860px; margin: 0 auto; padding: 22px 16px 56px; }
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+.card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md); padding: 24px; }
+h1 { font-size: 28px; line-height: 1.2; font-weight: 800; }
+h2 { font-size: 22px; line-height: 1.25; font-weight: 800; }
+.subtitle { color: var(--slate-mid); font-size: 15px; }
+
+/* ===== LOGIN ===== */
+.hero { background: var(--blue-bg); border-radius: 14px; padding: 10px 12px 0; margin-bottom: 20px; overflow: hidden; }
+.hero svg { display: block; width: 100%; height: auto; }
+.login-head { text-align: center; margin-bottom: 18px; }
+.login-head .kicker { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--blue); background: var(--blue-pale); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
+.rules { list-style: none; display: grid; gap: 8px; margin: 0 0 20px; }
+.rules li { display: flex; gap: 12px; align-items: flex-start; background: var(--gray-50);
+  border: 1px solid var(--gray-200); border-radius: 12px; padding: 10px 12px; font-size: 14.5px; }
+.rules .ico { font-size: 20px; line-height: 1.2; flex: none; width: 26px; text-align: center; }
+.field-label { display: block; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+.email-input { width: 100%; padding: 13px 14px; border: 2px solid var(--gray-200); border-radius: 12px;
+  font-family: var(--font-body); font-size: 16px; color: var(--navy); outline: none; background: #fff; }
+.email-input:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px var(--blue-pale); }
+.error { color: var(--red); font-size: 14px; font-weight: 600; min-height: 20px; margin-top: 8px; }
+
+/* ===== BUTTONS ===== */
+.btn { border: none; border-radius: 12px; padding: 12px 20px; font-weight: 700; font-size: 15px;
+  transition: background .15s ease, transform .05s ease, box-shadow .15s ease; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 2px 0 #1d4ed8; }
+.btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+.btn-primary:disabled { background: var(--gray-300); box-shadow: none; cursor: not-allowed; }
+.btn-secondary { background: #fff; color: var(--slate); border: 2px solid var(--gray-200); }
+.btn-secondary:hover { border-color: var(--blue-light); color: var(--blue); }
+.btn-ghost { background: transparent; color: var(--slate-mid); padding: 12px 12px; }
+.btn-ghost:hover { color: var(--slate); background: var(--gray-100); }
+.btn-ghost.confirm { color: var(--orange); background: var(--orange-pale); }
+.btn-block { width: 100%; padding: 14px 20px; font-size: 16px; }
+
+/* ===== QUESTION CARD ===== */
+.q-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.chip { font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--blue); background: var(--blue-pale); padding: 4px 10px; border-radius: 999px; }
+.q-count { font-size: 13px; font-weight: 700; color: var(--slate-mid); }
+.q-context { background: var(--blue-bg); border-left: 4px solid var(--blue); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 14px; font-size: 15px; font-weight: 700; }
+.q-top { display: grid; grid-template-columns: minmax(0,1fr) 96px; gap: 18px; align-items: start; margin-bottom: 18px; }
+.q-top.no-illu { grid-template-columns: minmax(0,1fr); }
+.q-text { font-size: 18px; font-weight: 700; line-height: 1.45; }
+.q-sub { display: block; font-size: 14px; font-weight: 500; color: var(--slate-mid); margin-top: 8px; }
+.q-illu { background: var(--blue-bg); border-radius: 16px; padding: 6px; }
+.q-illu svg { display: block; width: 100%; height: auto; }
+.q-emoji { font-size: 46px; line-height: 1; height: 84px; display: flex; align-items: center; justify-content: center; }
+@media (max-width: 560px) {
+  .card { padding: 18px; }
+  .q-top { grid-template-columns: 1fr; gap: 12px; }
+  .q-top .q-illu { order: -1; width: 84px; margin: 0 auto; }
+  .q-emoji { font-size: 38px; height: 66px; }
+  .q-text { font-size: 17px; }
+  h1 { font-size: 24px; }
+}
+
+/* QCM */
+.options { display: grid; gap: 10px; }
+.qcm-option { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  padding: 12px 14px; border: 2px solid var(--gray-200); border-radius: 12px; background: #fff;
+  font-size: 15.5px; font-weight: 500; transition: border-color .12s ease, background .12s ease; }
+.qcm-option:hover:not(.locked) { border-color: var(--blue-light); background: var(--blue-bg); }
+.qcm-option .opt-letter { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: var(--slate); }
+.qcm-option.selected { border-color: var(--blue); background: var(--blue-bg); }
+.qcm-option.selected .opt-letter { background: var(--blue); color: #fff; }
+.qcm-option.correct { border-color: var(--green); background: var(--green-pale); }
+.qcm-option.correct .opt-letter { background: var(--green); color: #fff; }
+.qcm-option.incorrect { border-color: var(--red); background: var(--red-pale); }
+.qcm-option.incorrect .opt-letter { background: var(--red); color: #fff; }
+.qcm-option.locked { cursor: default; }
+
+/* FEEDBACK + ACTIONS */
+.feedback { margin-top: 16px; padding: 12px 14px; border-radius: 12px; font-weight: 600; font-size: 15px;
+  display: flex; gap: 10px; align-items: flex-start; animation: pop .3s ease; }
+.feedback .fb-ico { font-size: 20px; line-height: 1.2; flex: none; }
+.feedback.ok { background: var(--green-pale); color: #166534; border: 1px solid #bbf7d0; }
+.feedback.ko { background: var(--red-pale); color: #991b1b; border: 1px solid #fecaca; }
+.feedback.retry { background: var(--orange-pale); color: #9a3412; border: 1px solid #fed7aa; }
+.actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.attempt-info { margin-right: auto; font-size: 13px; font-weight: 600; color: var(--slate-mid); }
+
+/* DOCUMENTS (extraits, factures, formulaires) */
+.q-doc { margin: 0 0 16px; overflow-x: auto; }
+.paper { background: #fffdf6; border: 1px solid #efe3c4; border-radius: 14px; padding: 14px 16px;
+  box-shadow: var(--shadow-sm); font-size: 14.5px; }
+.paper.white { background: #fff; border-color: var(--gray-200); }
+.paper.cols { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+@media (max-width: 600px) { .paper.cols { grid-template-columns: 1fr; } }
+.paper-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase; font-size: 12.5px; color: var(--slate); margin-bottom: 8px; }
+.paper-sub { font-size: 13.5px; color: var(--slate); margin-bottom: 8px; }
+.paper-sec { font-size: 11.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--blue); margin: 12px 0 2px; }
+.paper-row { display: grid; grid-template-columns: minmax(0,.7fr) minmax(0,1.3fr); gap: 10px; align-items: center;
+  padding: 6px 0; border-top: 1px dashed #e6dcc0; }
+.paper-row > span:first-child { font-size: 13px; font-weight: 700; color: var(--slate-mid); }
+@media (max-width: 560px) { .paper-row { grid-template-columns: 1fr; gap: 4px; } }
+.paper ul { margin: 0; padding-left: 18px; }
+.paper li { margin: 3px 0; }
+table.st { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.st th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--slate-mid); border-bottom: 2px solid var(--gray-200); padding: 6px 8px; }
+table.st td { padding: 7px 8px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+table.st .num { text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+.st-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-weight: 700;
+  padding: 8px 10px; background: var(--gray-50); border-radius: 8px; margin-top: 8px; font-size: 14px; }
+.stain { display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 26px;
+  border-radius: 50% 44% 52% 46%; background: radial-gradient(ellipse at 40% 40%, #a16207 0, #92400e 60%, #b4530999 100%);
+  font-size: 13px; }
+
+/* SAISIE NUMÉRIQUE et GRILLE */
+.num-row { display: flex; align-items: center; gap: 10px; }
+.num-input { width: 190px; max-width: 100%; padding: 12px 14px; border: 2px solid var(--gray-200); border-radius: 12px;
+  font-family: var(--font-mono); font-size: 17px; color: var(--navy); outline: none; background: #fff; text-align: right; }
+.num-input:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px var(--blue-pale); }
+.num-input:disabled { background: var(--gray-50); color: var(--slate); }
+.num-unit { font-weight: 800; font-size: 17px; color: var(--slate); }
+.num-hint { font-size: 13px; color: var(--slate-mid); margin-top: 8px; }
+.grid-rows { display: grid; gap: 10px; }
+.grid-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: center;
+  padding: 10px 12px; border: 2px solid var(--gray-200); border-radius: 12px; }
+.grid-lbl { font-weight: 700; font-size: 15px; }
+@media (max-width: 560px) { .grid-row { grid-template-columns: 1fr; gap: 6px; } .num-input { width: 100%; } .num-row { width: 100%; } }
+
+/* ÉTIQUETTES (classer, pairs, schema) */
+.reserve { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border: 2px dashed var(--gray-300);
+  border-radius: 12px; background: var(--gray-50); min-height: 58px; margin-bottom: 14px; align-items: flex-start; }
+.reserve-label { width: 100%; font-size: 11.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--slate-mid); }
+.reserve-empty { color: var(--slate-light); font-size: 13px; font-style: italic; }
+.tag { display: inline-flex; align-items: center; text-align: left; padding: 8px 12px; border: 2px solid var(--gray-200);
+  border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; line-height: 1.3; box-shadow: var(--shadow-sm);
+  transition: background .12s ease, border-color .12s ease; }
+.tag:hover { border-color: var(--blue-light); }
+.tag.picked { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 0 0 3px var(--blue-pale); }
+.tag.placed { background: var(--blue-bg); border-color: var(--blue-pale); box-shadow: none; }
+.hint-pick { font-size: 13px; color: var(--blue); font-weight: 600; margin: -6px 0 10px; min-height: 18px; }
+
+/* Tri en colonnes — la colonne entière est la zone de dépôt (13.13) */
+.bins { display: grid; grid-template-columns: repeat(var(--nb, 2), minmax(0,1fr)); gap: 12px; }
+@media (max-width: 600px) { .bins { grid-template-columns: 1fr; } }
+.bin { border: 2px solid var(--gray-200); border-radius: var(--radius); overflow: hidden;
+       display: flex; flex-direction: column;
+       transition: border-color .12s ease, background .12s ease; }
+.bin.droppable { border-color: var(--blue-light); border-style: dashed; cursor: pointer; }
+.bin.droppable:hover { background: var(--blue-bg); }
+.bin-title { background: var(--gray-100); padding: 10px 12px; font-size: 13px;
+             font-weight: 800; color: var(--navy); text-align: center; }
+.bin-drop { padding: 10px; min-height: 92px; flex: 1 1 auto;
+            display: flex; flex-direction: column; gap: 7px; cursor: pointer; }
+.bin-empty { color: var(--slate-light); font-size: 13px; font-style: italic;
+             text-align: center; margin: auto 0; pointer-events: none; }
+
+/* Appariement */
+.pair-row { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); gap: 10px; align-items: center;
+  padding: 10px 12px; border: 2px solid var(--gray-200); border-radius: 12px; margin-bottom: 8px; cursor: pointer;
+  transition: border-color .12s ease, background .12s ease; }
+.pair-row.droppable { border-style: dashed; border-color: var(--blue-light); }
+.pair-row.droppable:hover { background: var(--blue-bg); }
+.pair-label { font-weight: 600; font-size: 15px; }
+.pair-drop { min-height: 42px; border-radius: 8px; background: var(--gray-50); display: flex; align-items: center; padding: 4px 8px; }
+.slot-empty { color: var(--slate-light); font-style: italic; font-size: 13px; pointer-events: none; }
+@media (max-width: 560px) { .pair-row { grid-template-columns: 1fr; gap: 6px; } }
+
+/* Schéma à compléter : les cases sont posées dans un document */
+.sch-slot { min-height: 44px; border: 2px dashed var(--gray-300); border-radius: 10px; background: #fff; display: flex;
+  align-items: center; padding: 6px 10px; font-weight: 700; font-size: 14px;
+  line-height: 1.3; cursor: pointer; transition: border-color .12s ease, background .12s ease; }
+.sch-slot.filled { border-style: solid; border-color: var(--blue-pale); background: var(--blue-bg); }
+.sch-slot.droppable { border-color: var(--blue-light); border-style: dashed; }
+.sch-slot.droppable:hover { background: var(--blue-bg); }
+
+/* Sélection multiple */
+.multi-list { display: grid; gap: 8px; }
+.multi-opt { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 12px 14px;
+  border: 2px solid var(--gray-200); border-radius: 12px; background: #fff; font-size: 15.5px; font-weight: 500;
+  transition: border-color .12s ease, background .12s ease; }
+.multi-opt:hover { border-color: var(--blue-light); }
+.multi-opt .box { width: 24px; height: 24px; border: 2px solid var(--gray-300); border-radius: 7px; flex: none;
+  display: flex; align-items: center; justify-content: center; background: #fff; }
+.multi-opt.checked { border-color: var(--blue); background: var(--blue-bg); }
+.multi-opt.checked .box { background: var(--blue); border-color: var(--blue); }
+.multi-opt.checked .box::after { content: '✓'; color: #fff; font-weight: 800; font-size: 15px; line-height: 1; }
+
+/* Chasse aux erreurs */
+.doc { background: #fffdf6; border: 1px solid #efe3c4; border-radius: 14px; padding: 14px 12px 10px; box-shadow: var(--shadow-sm); }
+.doc-title { font-weight: 800; font-size: 15px; margin: 0 4px 8px; display: flex; gap: 8px; align-items: center; }
+.seg { display: flex; gap: 10px; align-items: flex-start; width: 100%; text-align: left; padding: 9px 10px;
+  border: 2px solid transparent; border-radius: 10px; background: transparent; margin-bottom: 3px;
+  font-size: 15px; line-height: 1.45; transition: background .12s ease, border-color .12s ease; }
+.seg:hover { background: #fff4d6; }
+.seg-num { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #f1e6c8; font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.seg-text { flex: 1 1 auto; }
+.seg-flag { flex: none; opacity: 0; }
+.seg.flagged { border-color: var(--red); background: var(--red-pale); }
+.seg.flagged .seg-num { background: var(--red); color: #fff; }
+.seg.flagged .seg-flag { opacity: 1; }
+
+/* Verrouillage visuel (le vrai verrou est EXUI.locked, 13.11) */
+.is-locked .tag, .is-locked .bin, .is-locked .pair-row, .is-locked .sch-slot, .is-locked .multi-opt, .is-locked .seg, .is-locked .bin-drop { cursor: default; }
+.is-locked .bin.droppable, .is-locked .pair-row.droppable { border-style: solid; }
+
+/* ===== ÉCRANS SIMPLES ===== */
+.center { text-align: center; }
+.big-illu { width: 150px; margin: 0 auto 14px; background: var(--blue-bg); border-radius: 24px; padding: 10px; }
+.big-illu svg { display: block; width: 100%; height: auto; }
+.screen-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.info-box { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; padding: 12px 14px; text-align: left; font-size: 14.5px; margin-top: 16px; }
+.info-box p + p { margin-top: 6px; }
+.story { background: var(--orange-pale); border: 1px solid #fed7aa; border-radius: 12px; padding: 12px 14px; text-align: left; font-size: 15px; margin-top: 16px; }
+.small { font-size: 13px; color: var(--slate-mid); }
+
+/* ===== SYNTHÈSE ===== */
+.score-hero { text-align: center; margin: 4px 0 18px; }
+.score-line { display: flex; align-items: baseline; justify-content: center; gap: 8px; }
+.score-big { font-size: 60px; font-weight: 800; line-height: 1; color: var(--blue); }
+.score-max { font-size: 24px; font-weight: 700; color: var(--slate-mid); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 22px; }
+.stat { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; padding: 10px; text-align: center; }
+.stat .label { font-size: 12px; font-weight: 700; color: var(--slate-mid); text-transform: uppercase; letter-spacing: .04em; }
+.stat .value { font-size: 19px; font-weight: 800; }
+.section-title { font-size: 16px; font-weight: 800; margin: 6px 0 8px; }
+.comp-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); align-items: center; }
+.comp-name { font-weight: 700; font-size: 15px; }
+.comp-phrase { grid-column: 1 / -1; font-size: 13.5px; color: var(--slate-mid); }
+.comp-bar { grid-column: 1 / -1; height: 8px; background: var(--gray-100); border-radius: 99px; overflow: hidden; }
+.comp-fill { height: 100%; border-radius: 99px; }
+.comp-pts { font-family: var(--font-mono); font-size: 13px; color: var(--slate-mid); margin-left: 8px; white-space: nowrap; }
+.badge { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+.badge.acq { background: var(--green-pale); color: var(--green); }
+.badge.enc { background: var(--orange-pale); color: var(--orange); border: 1px solid #fed7aa; }
+.badge.non { background: var(--red-pale); color: var(--red); }
+.badge.ind { background: var(--gray-100); color: var(--slate-mid); }
+.prio { list-style: none; display: grid; gap: 8px; }
+.prio li { background: var(--orange-pale); border: 1px solid #fed7aa; border-radius: 12px; padding: 10px 12px; font-size: 14.5px; }
+.prio li.good { background: var(--green-pale); border-color: #bbf7d0; }
+@media (max-width: 480px) { .stats { grid-template-columns: 1fr; } .score-big { font-size: 52px; } }
+</style>
+</head>
+<body>
+
+<header class="app-header" id="appHeader" hidden>
+  <div class="header-inner">
+    <div class="h-left">
+      <div class="h-title">Le paiement<span class="h-title-extra"> · Évaluation formative</span></div>
+      <div class="h-email" id="headerEmail"></div>
+    </div>
+    <div class="h-right">
+      <span class="timer" id="timer" title="Temps passé">00:00:00</span>
+      <button type="button" class="btn-pause" id="btnPause" title="Faire une pause : ta progression est enregistrée">⏸ Pause</button>
+    </div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<main>
+
+<!-- ====== SCREEN: LOGIN ====== -->
+<div class="screen active" id="screenLogin">
+  <div class="card">
+    <div class="hero" id="heroIllu"></div>
+    <div class="login-head">
+      <span class="kicker">3e et 4e EQ · Évaluation formative</span>
+      <h1>Mission trésorerie</h1>
+      <p class="subtitle">Espèces, banque, cartes, sécurité et intérêts : tout le chapitre « Le paiement ».</p>
+    </div>
+    <ul class="rules">
+      <li><span class="ico">⏱️</span><span>Durée : <b>environ 60 minutes</b>. Prends le temps de bien lire chaque situation.</span></li>
+      <li><span class="ico">☝️</span><span><b>Partie 1 — Quiz</b> : 10 questions, <b>un seul essai</b> par question.</span></li>
+      <li><span class="ico">🧩</span><span><b>Partie 2 — Exercices</b> : 17 exercices rangés en 7 dossiers, 1 ou 2 essais selon l'exercice. Tu peux passer un exercice si tu bloques.</span></li>
+      <li><span class="ico">🧮</span><span>Prépare ta <b>calculatrice</b> et une feuille de brouillon. Pour le cours, suis la consigne de ton professeur.</span></li>
+      <li><span class="ico">💾</span><span>Tu dois t'arrêter avant la fin ? <b>Ta progression est enregistrée</b>. Reviens sur <b>le même appareil</b>, entre ton adresse e-mail, et tu reprendras là où tu t'es arrêté(e).</span></li>
+      <li><span class="ico">💪</span><span>Certaines situations sont nouvelles : sers-toi de ce que tu sais pour raisonner. Tu en sais plus que tu ne le penses !</span></li>
+    </ul>
+    <label class="field-label" for="emailInput">Ton adresse e-mail de l'école</label>
+    <input type="email" id="emailInput" class="email-input" placeholder="prenom.nom@istlm.org" autocomplete="email" autocapitalize="off" spellcheck="false">
+    <div class="error" id="loginError" role="alert"></div>
+    <button type="button" class="btn btn-primary btn-block" id="btnLogin" onclick="handleLogin()">Commencer l'évaluation</button>
+  </div>
+</div>
+
+<!-- ====== SCREEN: DONE (déjà réalisée) ====== -->
+<div class="screen" id="screenDone">
+  <div class="card center">
+    <div class="big-illu" id="doneIllu"></div>
+    <h2>Tu as déjà terminé cette évaluation</h2>
+    <p class="subtitle" style="margin-top:8px;">Merci ! Ton professeur a bien reçu tes résultats. Vous corrigerez ensemble en classe.</p>
+  </div>
+</div>
+
+<!-- ====== SCREEN: REPRISE ====== -->
+<div class="screen" id="screenResume">
+  <div class="card center">
+    <div class="big-illu" id="resumeIllu"></div>
+    <div id="resumeContent"></div>
+  </div>
+</div>
+
+<!-- ====== SCREEN: PAUSE ====== -->
+<div class="screen" id="screenPause">
+  <div class="card center">
+    <div class="big-illu" id="pauseIllu"></div>
+    <h2>C'est la pause ☕</h2>
+    <p class="subtitle" style="margin-top:8px;">Ta progression est enregistrée sur cet appareil.</p>
+    <div class="info-box">
+      <p id="pauseProgress"></p>
+      <p>Pour reprendre plus tard : rouvre cette page <b>sur ce même appareil</b> (même ordinateur ou même téléphone, même navigateur) et entre ton adresse e-mail. Tu repartiras de la question où tu t'es arrêté(e).</p>
+    </div>
+    <div class="screen-actions">
+      <button type="button" class="btn btn-primary btn-block" id="btnResumeNow">Reprendre maintenant</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SCREEN: LOCKED (Verrou fermé) ====== -->
+<div class="screen" id="screenLocked">
+  <div class="card center">
+    <div class="big-illu" id="lockedIllu"></div>
+    <h2>Évaluation non disponible 🔒</h2>
+    <p class="subtitle" style="margin-top:8px;">L'évaluation n'est pas ouverte actuellement.<br>Attends les consignes de ton professeur.</p>
+    <div class="info-box">
+      <p>💾 Tu avais déjà commencé ? Pas d'inquiétude : ta progression reste enregistrée sur cet appareil. Tu reprendras là où tu t'es arrêté(e) dès que ton professeur rouvrira l'évaluation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SCREEN: QUIZ ====== -->
+<div class="screen" id="screenQuiz">
+  <div class="card" id="quizCard"></div>
+</div>
+
+<!-- ====== SCREEN: TRANSITION ====== -->
+<div class="screen" id="screenTransition">
+  <div class="card center">
+    <div class="big-illu" id="transitionIllu"></div>
+    <h2>Partie 1 terminée, bien joué ! 🎉</h2>
+    <p class="subtitle" style="margin-top:8px;">Tu as répondu aux 10 questions du quiz. Place maintenant aux <b>17 exercices</b>.</p>
+    <div class="story">
+      <p>🍪 <b>Ta mission.</b> Des élèves de l'école ont créé une mini-entreprise : <b>« Coron Cookies »</b>. Ils cuisent des cookies et les vendent sur un stand, au marché et sur commande. Lina, la trésorière, est débordée : elle te confie <b>sept dossiers</b> à traiter.</p>
+    </div>
+    <div class="info-box">
+      <p>🧩 Étiquettes à placer et calculs : tu as <b>deux essais</b>.</p>
+      <p>☝️ Cases à cocher et phrases à signaler : tu as <b>un seul essai</b>.</p>
+      <p>🧮 Pour un calcul, écris seulement le nombre : <b>12,50</b> ou <b>12.50</b>, sans le signe €.</p>
+      <p>⏭️ Tu bloques ? Tu peux passer un exercice. Tes bonnes réponses comptent quand même.</p>
+    </div>
+    <div class="screen-actions">
+      <button type="button" class="btn btn-primary btn-block" id="btnStartExercises">Ouvrir le premier dossier →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SCREEN: EXERCISE ====== -->
+<div class="screen" id="screenExercise">
+  <div class="card question-card" id="exCard"></div>
+</div>
+
+<!-- ====== SCREEN: SUMMARY ====== -->
+<div class="screen" id="screenSummary">
+  <div class="card">
+    <div class="big-illu" id="summaryIllu"></div>
+    <div class="score-hero">
+      <h2>Bravo, tu as terminé ton évaluation ! 🎉</h2>
+      <p class="subtitle" style="margin:6px 0 14px;">Merci pour ton travail. Voici ton bilan.</p>
+      <div class="score-line"><div class="score-big" id="totalScore">0</div><div class="score-max" id="totalMax">/ 50</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="label">Quiz</div><div class="value" id="quizScore">0/10</div></div>
+      <div class="stat"><div class="label">Exercices</div><div class="value" id="exScore">0/40</div></div>
+      <div class="stat"><div class="label">Temps</div><div class="value" id="timeScore">00:00:00</div></div>
+    </div>
+    <div class="section-title">Ce que tu sais faire</div>
+    <div id="compList"></div>
+    <div class="section-title" style="margin-top:20px;">Pour progresser</div>
+    <ul class="prio" id="prioList"></ul>
+    <p class="small" style="margin-top:18px;">Ton professeur a reçu tes résultats. Vous corrigerez l'évaluation ensemble en classe.</p>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ============================================================
+// CONFIGURATION — À ADAPTER POUR CHAQUE ÉVALUATION
+// ============================================================
+const CONFIG = {
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzff9KEtrF9aH2ajzRvpPmePXDjOzLeOjrqpxJRO5uSKsfAMlY24A39eWO2tXBvO-eu/exec',
+  APP_NAME: 'Le Paiement 3e-4e EQ',
+  NB_QUIZ: 10,
+  NB_EXERCICES: 17,
+  POINTS_MAX: 50,                // 10 (quiz) + 40 (exercices)
+  POINTS_EX: 40,                 // total des exercices : TOTAL — Exercices et affichage final
+  TENTATIVES_CHOIX: 1,           // qcm, multi et erreurs : une seule chance
+  TENTATIVES_MANIP: 2,           // classer, pairs, schema, numeric, grid
+  SAVE_PREFIX: 'evalform|'       // reprise : préfixe de la sauvegarde locale (localStorage)
+};
+
+// Nombre de tentatives selon le type (voir 3.3)
+const CHOIX = ['qcm', 'multi', 'erreurs'];
+const maxTentatives = ex => CHOIX.includes(ex.type)
+  ? CONFIG.TENTATIVES_CHOIX : CONFIG.TENTATIVES_MANIP;
+
+// ============================================================
+// RÉFÉRENTIEL DE COMPÉTENCES — fiche 7 « Le paiement » (3e et 4e EQ)
+// ============================================================
+const COMPETENCES = {
+  "C1": {"libelle": "Prouver un paiement en espèces avec le bon document", "critere": "Identifier / qualifier", "chapitre": "partie 1 « Le paiement en espèces » — ticket de caisse, acquit, quittance et reçu"},
+  "C2": {"libelle": "Utiliser les mots de la banque et décoder un IBAN", "critere": "Mobiliser le référentiel", "chapitre": "partie 2 — « Les fonctions de la banque », « Les types de comptes bancaires » et « L'IBAN et le BIC »"},
+  "C3": {"libelle": "Lire et compléter les documents bancaires", "critere": "Contrôler", "chapitre": "partie 2 — « L'extrait de compte », « Le bulletin de versement » et « Le virement bancaire »"},
+  "C4": {"libelle": "Choisir entre virement, domiciliation et ordre permanent", "critere": "Identifier / qualifier", "chapitre": "partie 2 — « La domiciliation », « L'ordre permanent » et le tableau qui les compare au virement"},
+  "C5": {"libelle": "Utiliser les moyens de paiement électroniques", "critere": "Connaître le cadre", "chapitre": "partie 3 « Les opérations bancaires électroniques » — carte de débit, paiements mobiles et carte de crédit"},
+  "C6": {"libelle": "Protéger ses paiements", "critere": "Appliquer une procédure", "chapitre": "partie 4 « La sécurité des paiements » — règles essentielles, perte ou vol, phishing"},
+  "C7": {"libelle": "Calculer des intérêts simples", "critere": "Calculer", "chapitre": "partie 5 « Le calcul des intérêts simples » — la formule et ses trois diviseurs (100, 1 200, 36 000)"}
+};
+// FIN COMPETENCES
+
+// ============================================================
+// ILLUSTRATIONS — dessins SVG originaux (libres de droits, aucune connexion nécessaire)
+// ============================================================
+const ILLU = {
+  hero: `<svg viewBox="0 0 320 124" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="#fff"><ellipse cx="150" cy="16" rx="16" ry="6.5"/><ellipse cx="161" cy="12" rx="10" ry="6.5"/><ellipse cx="226" cy="22" rx="13" ry="5.5"/></g>
+    <rect x="18" y="54" width="100" height="58" rx="3" fill="#fde68a"/>
+    <path d="M10 30 H126 L120 54 H16 Z" fill="#ea580c"/>
+    <path d="M27 30 h17 l-2 24 h-17 z M60 30 h16 v24 h-16 z M92 30 h17 l2 24 h-17 z" fill="#fff" opacity=".92"/>
+    <rect x="26" y="62" width="84" height="7" rx="3.5" fill="#b45309"/>
+    <g><circle cx="44" cy="89" r="12" fill="#d97706"/><circle cx="39" cy="85" r="2.2" fill="#78350f"/><circle cx="48" cy="92" r="2.2" fill="#78350f"/><circle cx="46" cy="83" r="1.7" fill="#78350f"/><circle cx="40" cy="94" r="1.7" fill="#78350f"/></g>
+    <g><circle cx="70" cy="93" r="12" fill="#f59e0b"/><circle cx="66" cy="89" r="2.2" fill="#78350f"/><circle cx="75" cy="96" r="2.2" fill="#78350f"/><circle cx="73" cy="88" r="1.7" fill="#78350f"/></g>
+    <g><circle cx="95" cy="87" r="12" fill="#d97706"/><circle cx="91" cy="84" r="2.2" fill="#78350f"/><circle cx="99" cy="91" r="2.2" fill="#78350f"/><circle cx="97" cy="82" r="1.7" fill="#78350f"/><circle cx="90" cy="92" r="1.7" fill="#78350f"/></g>
+    <g transform="rotate(-8 186 66)">
+      <rect x="142" y="38" width="88" height="56" rx="9" fill="#2563eb"/>
+      <rect x="152" y="51" width="17" height="13" rx="3" fill="#fbbf24"/>
+      <rect x="152" y="74" width="50" height="5" rx="2.5" fill="#bfdbfe"/><rect x="152" y="83" width="30" height="4" rx="2" fill="#93c5fd"/>
+      <path d="M208 49 q5 6.5 0 13 M214 46 q8 9.5 0 19" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    </g>
+    <rect x="252" y="20" width="50" height="92" rx="10" fill="#1e293b"/>
+    <rect x="257" y="29" width="40" height="68" rx="3" fill="#fff"/>
+    <g fill="#1e293b"><rect x="262" y="35" width="11" height="11"/><rect x="281" y="35" width="11" height="11"/><rect x="262" y="54" width="11" height="11"/><rect x="278" y="51" width="5" height="5"/><rect x="286" y="58" width="6" height="6"/><rect x="278" y="62" width="4" height="4"/></g>
+    <g fill="#fff"><rect x="265" y="38" width="5" height="5"/><rect x="284" y="38" width="5" height="5"/><rect x="265" y="57" width="5" height="5"/></g>
+    <rect x="263" y="76" width="28" height="12" rx="6" fill="#22c55e"/><path d="M272 82 l3.5 3.5 l7 -7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="277" cy="104" r="3" fill="#475569"/>
+    <circle cx="150" cy="103" r="9" fill="#fbbf24" stroke="#d97706" stroke-width="2"/><text x="150" y="107.5" text-anchor="middle" font-size="11" font-weight="800" fill="#b45309" font-family="Arial, sans-serif">€</text>
+    <circle cx="170" cy="105" r="7" fill="#fcd34d" stroke="#d97706" stroke-width="2"/>
+    <rect x="0" y="112" width="320" height="12" fill="#cbd5e1"/>
+  </svg>`,
+  dossier: `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 20 h34 l8 10 h54 v48 a6 6 0 0 1 -6 6 h-84 a6 6 0 0 1 -6 -6 z" fill="#f59e0b"/>
+    <rect x="22" y="26" width="76" height="40" rx="3" fill="#fff"/>
+    <g fill="#cbd5e1"><rect x="29" y="33" width="46" height="3.5" rx="1.75"/><rect x="29" y="41" width="60" height="3.5" rx="1.75"/></g>
+    <rect x="12" y="46" width="96" height="38" rx="6" fill="#fcd34d"/>
+    <circle cx="60" cy="65" r="11" fill="#d97706"/><circle cx="56" cy="62" r="2" fill="#78350f"/><circle cx="64" cy="68" r="2" fill="#78350f"/><circle cx="63" cy="60" r="1.6" fill="#78350f"/>
+  </svg>`,
+  cadenas: `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M42 44 V30 a18 18 0 0 1 36 0 V44" fill="none" stroke="#64748b" stroke-width="8" stroke-linecap="round"/>
+    <rect x="30" y="40" width="60" height="44" rx="10" fill="#2563eb"/>
+    <circle cx="60" cy="58" r="6" fill="#fff"/><rect x="57" y="60" width="6" height="14" rx="3" fill="#fff"/>
+  </svg>`,
+  trophee: `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse cx="38" cy="30" rx="10" ry="11" fill="none" stroke="#f59e0b" stroke-width="5"/>
+    <ellipse cx="82" cy="30" rx="10" ry="11" fill="none" stroke="#f59e0b" stroke-width="5"/>
+    <path d="M38 12 H82 V30 a22 22 0 0 1 -44 0 Z" fill="#fbbf24"/>
+    <rect x="55" y="51" width="10" height="13" fill="#f59e0b"/>
+    <rect x="42" y="63" width="36" height="8" rx="3" fill="#b45309"/><rect x="36" y="71" width="48" height="9" rx="3" fill="#92400e"/>
+    <path d="M60 19 l3.5 7 7.7 1.1 -5.6 5.4 1.3 7.7 -6.9 -3.6 -6.9 3.6 1.3 -7.7 -5.6 -5.4 7.7 -1.1 z" fill="#fff"/>
+    <g><rect x="14" y="14" width="5" height="5" rx="1" fill="#2563eb" transform="rotate(20 16 16)"/><rect x="100" y="10" width="5" height="5" rx="1" fill="#ef4444" transform="rotate(-15 102 12)"/><circle cx="104" cy="52" r="3" fill="#22c55e"/><circle cx="16" cy="56" r="3" fill="#f472b6"/><rect x="96" y="70" width="5" height="5" rx="1" fill="#fbbf24"/></g>
+  </svg>`,
+  pause: `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50 26 q-6 -7 0 -14 M62 26 q-6 -7 0 -14 M74 26 q-6 -7 0 -14" stroke="#cbd5e1" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="86" cy="50" rx="10" ry="11" fill="none" stroke="#2563eb" stroke-width="6"/>
+    <path d="M40 32 H84 V62 a12 12 0 0 1 -12 12 H52 a12 12 0 0 1 -12 -12 Z" fill="#2563eb"/>
+    <rect x="40" y="32" width="44" height="6" fill="#1e3a8a"/>
+    <path d="M62 52 c-3 -5 -10 -3 -9 2 c1 4 9 9 9 9 s8 -5 9 -9 c1 -5 -6 -7 -9 -2z" fill="#fff"/>
+    <ellipse cx="62" cy="79" rx="30" ry="5" fill="#cbd5e1"/>
+  </svg>`,
+  valide: `<svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="60" cy="45" r="32" fill="#22c55e"/>
+    <path d="M45 46 L56 57 L77 35" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#fbbf24"><path d="M18 20 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2z"/><path d="M100 64 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2z"/></g>
+  </svg>`
+};
+// Vignette d'une question : un simple pictogramme, sans rapport avec la réponse
+function illu(q) { return q.ico ? `<div class="q-illu q-emoji" aria-hidden="true">${esc(q.ico)}</div>` : ''; }
+
+// ============================================================
+// QUIZ DATA — 10 questions théoriques (chiffré)
+// ============================================================
+const QUIZ = [
+  {"id":"Q1","comp":"C1","points":1,"enc":"3NSw04Kj6dPTK7oh.O45oEh7IMetj2RD1lb4oGwlrg54qc97noadyMP5p4CwfetQzRfmuOcCgYl5sAoPMmqQYjWHojmTHSh7haYdWvWsKi+MbY4MhIHw8yy0Pv1+Naod5Dvqj1/q7lXVbAAjSDy1e+wu6A0DOP8KG6abcWb+PT1n57B9X1qJ32mDVqWo6wnGT3KkWPsJ3+0tM+nWWqFw65m8GdFSi0bOmd+t91zhWJifcxkuZXIXo9S7arHIPxAj8Y/6p0jD3ylf/bB4i1cL7cFmsZeSX0GabDXhp3NwjXnwjR+sqrr+78odhnx8eaPUsDepmsvH39z57IhKwiM322igG8ibgzWr9X+stneoL7Q01SGHPT1ATfvLqvPN1yzDAMn29GeqMABMf04R7lORw75FVuLb6uNs2H0ExYvi0OL1YVobO10/dVdApcU+Kx5B0OwCcAkHfVcCfu33pqIrAMlGi+D4EusSGzM71ajM/v6fITGQrj0tSgt2wx+XrZD07fLhU3WYFqXjkGfHy2wXHASCtyau9SfW31mcVtXUbhvkTfGMHrUiv0FOUWVLSOeIeDT/cGdI2XnaNMVxpyYd1E//k6k2mt1QS/WvBIq+kUqCZ4HrzUXZj/xtM65El2IYUElMGV5rjvGECDBMqmmqY0Q0vDd3fAUTlp2pP371XhqL8h7iyTZ3UcXUSXdoo2Yrmdl6HbXo03EbuoVG7xiyyBZZ/MKVsasUgvlFuy8XKwzKPbFOnXGvlhkeARzmCCS3JoXqXXTzV/ZbLbnh7PmAMdzDtJ+W9L8I6uYaGUu7tvrTMmVBO2Z5zNgFmNpSHOzxSf7JdTp+AWw3lVi/pNTD6mcLyFR6j9FhMq5nGlmztEXmaub5utNeLBZ4tV1dtJAD5ijY3"},
+  {"id":"Q2","comp":"C1","points":1,"enc":"zIaeA4D7RLwRvY5X.TpNfSatQCYTp84ssw4VxkB4XI2nVzG9bB4ouwh+FJ3ez8AohBamsUOH0V1EtygXY6mIPZDLpX3Q7h93M4d4b5czGieXlqUFk7Mg3ofwoPdcbjDGoNZ0fngXCnW23Vmbo7RnGa5TGaM5MQU67bF/f0iFkZtOXVZ8fKYqm1AIfXCPKu642A0Q5ZgJJPl+q1XMs9/O8rVeVq2OI2M6LNEWjAMAI0Cm25lCymUZ2sXh3LqSwjmxEM0+uhzjWYUB8ayMOCJ0fyssYDC21S2THUA6nnuoJs/EdE+4J11F+4yWXMYmqk8bFD5wur0SMKNDVieOzs2AhqUqJWjQdZZespomdWReDJSX7AYFPEHTQ5UwoIB1x/ltAk54iZLnWfjytjkCulSakPA4fpscZemRp/eqOyeYaPCKAz9UYSnHZYIz05R49LB3hWPWIQGOKhND6r6ASzTBmG6f9WfOBzgYPuj0/wnmuG6Ii2TEG8h6J6MiF3+om/GlGktyCjitcRx2tb6MwwYWB9C7j42WG513Tb2qwIIiv7JROZ1iSgPNJA2TZiJZOPyTPBLAemZVtMyajPUUYSUmQZrbSoTXLDPQieRlG8gLrNjfyeSyRBw7IPXRO8Gd6mdPPy9QsnqcK8TWui/LXTSf9fMD6aqPU2YHBJxzDQyG7R6ZmVrcqIu7/M6mnnY1k6bU6GS4pskFx"},
+  {"id":"Q3","comp":"C2","points":1,"enc":"4by62X8y466bxPTJ.DdNSjjGWg5G2giXo3e/13MT1rBBm6xickHomwwfopIqCegTmEXuLbt7xGHapfvZjtOm4tkUCa2aNf42ADW+kFUMHEU7+y7Nv6XXZeHso7EhvuCfZQtsb7FL9Dlo6DIx3pLvI0Igto5HdLN+2G2MlE03SUJ1FhJkn690C316h3gwON5uFlcxDdvewm4KIYZ4BgLCn9lomc2yhfNUx5+yfJNUxhEnWnls/39IYCXMZNW3j+SjoQC27RxjFX+CBFB1cPmhXs/AI24BoigR2GyzIolMnC6TYZICKuyXqWoZkhHhHPgu3FWbIzRT68BtSnj9GB4/+t2D6oR+o2fkEZ6DdWhc7LTrLrkfyjX58ddkmCdu2h+2/9TWkCp1gLoBXLkiTd8aUliCb0tD7wsnw53mxlOmsbXx10hXK5/CgU19lLHilBZ/q/pN1SqQOE0ujtV2xGjygrKXPXmH5VqULr4EkuAp3ybmLrZZqMhz1Vr9eQy2fBIA5nPnozWQRRa+Yz9imn55s6146TpxbaXfzav8mIfTSiN++EtdcVAg1xy/0A5nlC4MJgmC/llH768RpF7hp/nP3CdVGm8keEOs+TaOH6Tu1EsWpSf8QTEga6OzFWJDqP46x5/OTdOtUr6ennEyABOjosnJ5X/1QUUFhIkoVDZ7vrsBFmCxJohrDUfflfAD/AIxwnSCg5tFYHedXOa5vd2bIiBpONoL+8dDaZC3bqwo1L5iAs7Rc9ksQtKbBFVZA5VC5tYI0TtGOg78hHE6hx9pWkd2BRYUU0PHx9H6kXxybxnePNa/EBPfaE37aCAyXzvW1Yr0RNmdNFcqySkpjBlV5zA53GDmEe3FnjWCksyn62+51dXVbUiiunEQMeybgpVX1/vj60HiX2azWXCJ0ajoDvchuISgJZx/tm2QoWeMBlTLbA6rFkyvprinFh3eCcoOsNG+U1TuXR3sOkNZr+W7asozNPNrYWrg+pWb3fQQ8rPWC"},
+  {"id":"Q4","comp":"C2","points":1,"enc":"FCKTTj1L9I9LZg7P.cIWeptjtexBBBGjDnQsTs1UpqJku5X5iePB8bMellJS9iX75Gu5MRbA70CaoFY9d2dJyY/EuLGcikmKXzxXu8M6hszYToMUtmDRRUzeAUBdRBnCFCDtkklgktnVHb8IAP3lX6627OG64EEPYQwOx+ZokxI6W9levGrvbsMoAb+ADpig/TXyQvRHiiY0V7z4YcNjYF23sQId7b7c0Vwrmvf+Gp4PfTSeFL3ArVRHTY+4t+OA2IEnihGimT3EbE8528tmTcZC2UJj5UOgmGD5eUImk9wtjJKg/IefvtFG2k6LdLRHgHKjq9+iMrdIDnn1rLGiNs0PXs8FOmrO1dPlGKKMvt55Wez+c8GLAomeQYlt1ZRHLSdTFGZm1E8Ympb/Co6lnbTVECwDmFVC/Z3UCvXbwCE7ibNbSg1y8inIulHvbV66uOOjJnM42RVGVB/GMNF8dGAfIfXVPZxq8V2rCHkYpAyJUfhGjNdiw4CEkTazCd7q/WFpZpJ99DeR3VNO4StG0w6jFxIAq83TH5+ZF0g1jlV/D87Tz3cUEFDDzcqWdNIfB/2yvuKQTiaB26sW4CSg9rimZeKgVkUoLNkEd5zc31suD4itWtLZZIIvfPbXNo44DpSYqJI7twQ4weCfoh7qgGX2vS8e0yJHouTu9Y2pRy7MipW0p0kHsjbUWhZeDhHFI2uhUp+Y3SSzxnRLGjZyeIlsx2eoU1YJnNsan+j1N7gw4XRx13jApLtV4zKM/QIOSl5eHUJDhTSgAbCKU9vGSrFYqMxyXsvqeqojV6kJ22jNJiYb8"},
+  {"id":"Q5","comp":"C3","points":1,"enc":"Vj4eKmt9o9L+G8JN.qCe0IuRYv0iSMB+T8bn9KTjKRahvI2HUImDmmPMJc7/AAsYci5lddwqPiXHTNdhEaZU4MaPSZoxOlt3EsxBXQWX0nSIwHeWXCYsJxpVx0MtBbmc3SIbLA2g+wxKL12ip9+9x9CFvJsaM+N9Q+RtywWdaF5Mkx8nH3ORDLGNtCDulVzSRuIYBnkJkuIM1GQvxUb+/8gX86Llf3Ut2FdH44nX9BiYzv1DMYcKToJoKVhkFOXUkYqIXLveVaZEXlzPyf19w5JQV50ugd8Kau5tzMLsIZ8aeDPXJuPMJf21oLmmJqQL3kev6mu3Vl1b4RrwmKUtatWlhH4jH+4M4pewJWlahbdsCdK3dNzN0uQsQbtl2CJ2fKR+BgrT1xWq619VWX+dTLQ9IN8mtZwmTD+Pd7VVynuRfjEiTPEWSJQfJhnnfMq8Il69gM5VXoopBEx39//accjuzpU79JED+0orPWdlnG1IoviI2GM+cL9zOOfTi4N8doRuLpHr1ZV/1IX8Ux+txJA3Rqi7LkTG4sLSauRDa7xaKkw3zpRSx/KUK4BuZsKrlTyGXYfQumtuXI0wI/PbnoUdRUIkbcNwTfL8aef48hoNyWGU1hOfhBN/D6vSBF7ST9TQbRdSTSyVU41+QcmV1cbmBVbR2XTwka0EN4xv0wiIvlpfIGos43CAagJZK3nbJwXlYfztIso1fYtOHy0tv2lkcQOl9mU8Lm78nh+hQIRaGYV0TJQ=="},
+  {"id":"Q6","comp":"C3","points":1,"enc":"8TeYhKKNyqs4TfY5.RW2IungIHJE9MHM1h3Q8z1Gkhul2HcrW7ZsUhopSj1CPGRaSEIxzS71Xij03QvjPFkZdbZR7ZhjXzqO/dYD+BcYKPj9ZipDIncsxqJQI+36B35i06RUZR+rEeWQCy1gwE3GA35aZSQB3s9Wdi7TlzrZ7M39R9N1c+azjDs55W2AuQ65FwBtWTM+6VGD+uw06chTEE07I2mcxZJpiaABWw098GCVZ87M78SNOptJBFDLyGz0bdf6Ow8cy+iz0j+Y9fxZJcQJVYBdiBIN5mep39Zaw9CtB2yU2oGNNUzwGf/vQjnhaARfaMUHN8gHMAt/oQAd55FnKZL2k+Hmtp4zQ853TzuXq1XybubQBR5kQofP3co6/0LfACGhMXn5ZMK0pOCDGacAlMYeoM2fG85rkuVyq29s+IrbFbyGlvCHklek0Z6VWi47A3K7K4g6+qeknNEo0vUE3D4dyvj6NF46tvpU8S/kd6Nj26mDZ5CYDxjGGMOVfWPk/FUUkrTg45m0y9S0JQihxdBkNHZrV8tm8eym/vMkr9jhIIxn9BJm3RFen6EAa3aXWr7+fXlXd9jvwjqgWZO313Rizp/Labs3T1fIgeJ/qeMWx5NHyOkpedOlDBbNWRDYK3xdk6u5wKO5L1sqRa3f+KIOlxmQnuyoo68DR/b0bYLjLMwf4go3qZe01qbR2eNV3+d7aQDa48HHBfCNP1Xg/doEPTxojPHBA6Hvis4keCHoSGLIUjLdWjlvCwrZz7cIYuUORe+G38SYWbRl5RSr1aHQpkAFUPukx/XyXeITRz+RVhoHPglOPbX1qmdFf5Qaq0lyq0lBU4uUunicodD7sGHEKNzs="},
+  {"id":"Q7","comp":"C4","points":1,"enc":"Pu89VIlwnpKkWC+V.Tpz6OO+gtEWlAZFApveJkNsqLM6MQ1ddYynPPZlAEfL2Ocv7tBHW+xTIalV6WqyWX6KR4WFypxU4DJLxSN8ct3PeWNTzhQilv+XUX0zVIb38MM2IheGh1EpvDa8JPwdcRIc0J+lKUI7vlmII3P44MWbyRDYp7V0uHtueXo/F4C3dGD7ErjxUV0KJqiI+GxCOFlLkL/v5z9gsxO0B5lq+oUneEmPmSiqh2FCGUa3h3M6oDfqphZsqP7lu6XrkjLZsvA0mwkZAch3aCesGLnAP1qSulecZ7wyHDIF6T3Mvzi1LKbmIuPkRK9Pwc1Uz/arm+Vu4ZSTIbuh3HvyeeFgqsmIRsilJ3Y0VyHBzo+RZvrebBweAAD1+H+pCVqGvHjBlo8IQdC1Ka8mxBeUyKZpoYzlA5SLU5nJ8Yl+7mH35I2ce1ZxFNSqs7ID4GOE4aK0/PWNhOQmyG2FUWSBrqToB3rFGGLlh3awM2qtHXlPfAlMDXbELdmFEq3V0LXG5+rfgetiFfWCjzNfku9qzakDqerwxzyeL1WQ5l5wGRNUatQML/TG7B0rYsxbvnYJ5HhilY7F+Gv5zCfGJLjjdchz10zAaxC0RTrNF03rUw0eX1C3sj+wZFgwS4D/4wTP2/6c8DsddeMsVjkO5M186eSfsYeWhxVwHg/iAt6sHskdTwt3IGIQqC4ck2lyN4QzQcma9zAkH5W+U607wqEnwH5S/T4B/bJPEB/QCJYaY+ZoN++NpT8ASeQ3aXJ8mEa0="},
+  {"id":"Q8","comp":"C5","points":1,"enc":"yIH3G/ekXSAB2QI2.AXGdFus+baoGzvJ5Fi4NzRNVnGLI4XzciKMXCEGrdBPgFpsfbyXiW8cL7qZ2ZQ5rMsdJ1xV53pTdFnc5whQxk+yoXIlHObIEcjXdulrATGyCoV6EhTl+ygylCCkDsBZE3a809p+F50IFH4MBlcNAXV45Ym2Bq6zfYWTxYCSxdTrtXk23tJbEzkHN2Ow9FmGy81NDYm7h1mYlSyLmmbgj3aobBnlY6RnRjg4K2EbNf4wpOUSitvabVlWJe9IJ8VxQykE0B+8XAQBzLAErO+0ZbhF3muepetMAzGIMS+n7w1fVLd+FByqqSbyDQ7FLeyBt4QaMRn7AfTKiIR2jvNpnx1uQqwI2YPUmlkzh/pS7HElK2NetSZQHUAjTb71O5R6YvpqbqulBLdHsdeOOShiapIXaTpWEX0JreyE3KH8h8LECHZZVsCLAHluTTWjUvnEwz4G+GTOVoTgamBEjJmshWFNoRoXGU+W/VoW3LrxRv5tN5UB2s57d6uxPi0wRA70mP53aKGnDp1Xr2oiLfzsWgCQdUBCOtDB2CkwmFAMV7pkLtPsrYsLTMFBn+EZFIIrlagXXDxezHHzO4Y3vm95Kl1iuJYLDvZlS28mF5aKpTjgAFpF5dhL9AuZ4+IL2onF9m1cPI8c3myfvK3VTI/EW+Fn8hPV0R0Hsm4CS3RcuEv0="},
+  {"id":"Q9","comp":"C6","points":1,"enc":"/i14JtwVl+7HqmN/.BgoTHJQtbb/NKFanPG94iOJaG72PALOs+Zca8Hvn3ewJoK39e6MpZ7Qx6y+gRMgHrW34yBgQctqqemAtA8SA8NQ13NAD33y4JkOeSfzErePB0sw0hOL40y6K0KQofFnyobIUS0aLz25KfbTY5XN/yrZc8tvgvGC6G2NZmH5rll+MZu+T2uEcEJ2fKQHbwyCPl2ZBghZ1DDd5tVdSyJPJbl3HzuV0QgxEgODVLHaYQWKkf/S/4XO0d7HoG0uWn6ZyZw4P3iRyPKHb5Xdx1RAwGiUMU+pKDgBOY4XWSs0vEsxBwPd8zZJxLaS3A3m0yRlEWutk2zN8c7VZWGMh2MayY9UeQzT7dGOIRC+uBBKYgETyXVTL36XxFyAgy/aS71PCdLp/uZaRWylp2FBoQ2BxqVwQKIEiYeYvlDM4SE7PHrw6sBIQkS9VmT39jLD97e894lB/TfM6GATSlv2mEExfwEM1xUmXwAw16qdLkQQ7OVKc/GHH3Zp0rqnk98g7J+Ufk06r2ojHAbv7Zrte6bHDZp5pH5FHELmFS+8erhoYUqbxVfCAVNKQ9FCiLGWsKv7WSxoYS82nJTuP68rA8FRWgBynEPB9npb25TK7yshqH4P9ya7csdI+2UtLwB6Ffj0="},
+  {"id":"Q10","comp":"C7","points":1,"enc":"wRYx6LOtq9OYvlK/.W+pu8CH7MVqxbnR5UsqyFoOd6cJIfvAy/Zgku3YY3jyczCYjpPOOcymdFpgfM5hhR6xuW7/VtZ7ffZl8QffNYq/CD7JwHf0pzPqNPHDbyukJJ8ly2nh4cX/ZePdFQ5nElNoA+ghZnQN93OpXW1JIn0LrOpeh+iyX2rw+Xfa6f33tpIY+8z8bY3PkyLB7o981AaW+B6ssGAmW84nAcOkH8RI7L+Sa71Xq2wNveYlnK8TEjqqfshxKZXkMYMGuEcyvCqsBAnuN8rIq6QAzmgHicESOF1MkW+YAoZeIvlIh5r9A/YtIQZsFQPRWlTDdFzRFKghCTq48JqgPe5OgWo5w2RMiGbBGW1AXVrqKqCXKJmw5EXtB80xso539r0o="}
+];
+// FIN QUIZ
+
+// ============================================================
+// EXERCISES DATA — 17 exercices, 40 points (chiffré)
+// ============================================================
+const EXERCISES = [
+  {"id":"EX1","comp":"C1","type":"schema","points":3,"enc":"yhivY3UmUjn7K/xc.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"},
+  {"id":"EX2","comp":"C1","type":"numeric","points":1,"enc":"to5KxFg1ToRympes.TgicPYNm02NRAj9/M5oD+0w6lA+mIcnBDYSbPpJQ14r8x31t+/8J1eVoMRF+W1H570iE3DlqlUrw/sf9j94m0r8rlswcwkA8uTa13idfca5bpNsQ6E/V5+vK3TVRZgIhoG0STmSROqrjaLiMpg4Tq67o+sGdhivZWH4wIAc/dNJrbgyCoQR9vHwg8uU6ZfdXxSRqORNX5Un2aTbmrO1FjFH+MW5Ufr3JNLFd7j04symyE3Pi0FGvwvERqQHl5TF/EAInRYax2zQFkwd3s8ecfIAPGI+GFZsv98s18+pLqnXNO9FXkuWVG+Cln+XykCXL3HfwgZcm7XRVU3KNC/9FzATz5PcfYw+CwIH/6TxCbUwu2q7ViGhIcOSOJrOIZzYXgcK32aRdyrjRItrVq2uw+c9DJpe7necH/G7UBs0jofUJ9ETcPFb62Tuu5qSuTpq7y/SKeU+KIfUSbstZ/oC98pdgAZZNqzUX4QMyB6VzJLeLspM35WoshQuOKCfQPepoOZjG/2GrpNGtfXk="},
+  {"id":"EX3","comp":"C1","type":"multi","points":2,"enc":"lqkl8Vi94peVdXcs.ERT1PmPwdwd60uOhikIt4X+OOpco2f4WrEReJ9MNO0+LHehTAKKvLAX9jT91Hw1k4lzBEhS37s4981SfR4Fi6j9zBN+dhV4OaCUNUxq0EKzA2Bgytk9gij0uF0EGzO+fGg5cJxAM2GxsQB583FU2tRgcnHLAdaSLc0hNvg2bSzOFwEAB/h6k8465D/+OVxuOZHcZR7Ff9jr2W56i+/Xm/G7RUKztmxxeQx1OOkBH+zAbehW3b1LblbnpCTc43eqkwU8ZAlcsSTE8eY3npSNg1P4gQLwnmNpcunZmEwfR28nDTmhy4HvqHQGGbjdbYA0V91twNGVet1NZ5o6jdHDuvAdJbAVKad0YxCk71K2eIUWV32wEBLPbS0CjzaqycBuPEaRrbFejOzu436bLfGbaSq5XBinT2n+RrOUdlTcaP7OKNtPeX/aLpnduucWdcNlSHSlHoW/6owXYcHMCY96Hu/zcDVyIH8OiOciqjN9q2M3RaoCXZoSFl8DXjtyFgSnFXKVHUOA8EKOWaVJVLcEPBkYX42X2v4ZFOJJknTy4Koix5lgwBTsobFnL/WlLHb5uCOiHkfA3q/BSAqc9P44DLZuybWS7kdwpnn6kpodS3OK6Hf9AgxYvP4y54FSSArDWS3UCWlQiesu/bU3X9Tjbg8aVdpN3kj0NcopN6B6Jxf+XlDlZt5ABUa0SUmj5Hb8EahjWSiWM4azbRkt9Cv9qfXTBOMOJB66hTYeaCi/uFNKQK7rIeb8bM3y8e7he30xXBOE1N9JHREqgrrzCv4dFtYgR8e0idCSRmNRYjnlmGssN3ZezFXESHKrMqLhi/6AZ6w4hsQS4SJioZq35kFnn+hzARIznGvf+xgq7PqZrziq3w1/1Gd4S4sins5h77De4STfenzd4MsFtgmnqpYRcSqRrO3Pbcy1mqTFppUV0jiMbItFYKJ7RggGwJieTbYxTbIC38w4o8TcEvi3g2JdCNgA8MxQSgI29Ub7mZH6PvAxurNuvPIOuhs3einYODIQNcg0fPhmYNQtOyjiZq0tVEVixFA3W5UrN74zo6tRe5fPTUGEW+k0XL5DkZuqFspkydxfn2TLdO+CSQkd2dHON1E6gIP6kCpr6HXEehQu+v/X4AP+0Zu4sxanPGWwf7El5ZjmVcB0D455idX4o0yNz95ja4ArB+1ou0WZ/7TkFjEqvjmA="},
+  {"id":"EX4","comp":"C2","type":"pairs","points":3,"enc":"lf02oQ8o5M2Io+L8.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"},
+  {"id":"EX5","comp":"C2","type":"numeric","points":2,"enc":"014Mpf4rfZBiGsTo.vxOnumn5MtVZGHu2pDwiBa+dWPSZvh+Aq5Z5Rb4wwPD8P3BusL0ZbjqXDoNfQnn9nJqOWbQFy7wouxfNcsfVLV9N2zb4HRFU0ewUL9Jq5uKNjjxxornnM5PKdYEwODGeN7moi8OiqFBwmXT9dRQSCTxeFoTzWNiVndb5uwDG0XyP+BJ4Ek6J5xnwpdf9C1WyeTf6I/oQkiwPJbTub62Y/58nUDEKm+1SH7ceylRDA+nZo05aegDvkwtFFT4tHcsnLqJPEHXlNS7HAt+R6bG7EJkndJHP7ouU7f2k0SIAl8WI//D3bJSN8eejOVyWd5/4vLne3RKcfd5xeNckQQppigAe7gRA3OZXCE0EhRCsw7ZryB4YBuYogqo+PfQK3bT5PYegoKK+xo+mmE5zFyWayJ6FDHGn+ImjATeEO+irahZ/YFeqOvlx2bpORJLKVYTZMvyWHFS0O7e2vEKyaHi4Wwns77SV88rNb+ED1p1ErW7SneEMaTlp8Y9EgZI34j997EgxBdezpV5MLvyZ5lGx2gEuyJ42jkjW/VLJi/H6s3QY"},
+  {"id":"EX6","comp":"C3","type":"grid","points":3,"enc":"fyYckISHdrWod78t.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"},
+  {"id":"EX7","comp":"C3","type":"numeric","points":2,"enc":"cw6KoohReACrYNwh.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"},
+  {"id":"EX8","comp":"C3","type":"schema","points":3,"enc":"o5FIRtAYbQmDG4h4.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"},
+  {"id":"EX9","comp":"C4","type":"classer","points":3,"enc":"ugELR2bKDtE3zrF1.+PXpwvkqyuq9mDam4DmTrFfFQCDXGuguLQDFVUEd3TXT/TYTAESwa81rE5U7yQi5rIcJ3xC/gJqBZQW32ES39JqWSMipD4hzINMrjdmEsa+R12KvyuHSFGr7DQzU2rCEebby8gs31neP0emJBXDPmtyW/sbLfpYoSgIsEn682cjQfmPr/x3DR93SZ/K7JiePNcyT+7O4a7kY1IJlGt+MfCLvTuYbsqhvJaunbB0Y4cWedNHBE0WVvHKVFX4EKaDkyFC8RHz7ebk6nepMbidF3Emakt6JolfzmWWNZRQWJ6ZGtvjYBb8+fL4sIt0io+aRIwTfv+gbuAFVEyYfm1veoZ2zFzNIFCLihPvSf25uDEOFZ1lM8oxvexQmcQcuammxwvZCiteKV6EFlwSz9sqCEV3ujhrHAByT56Pz8hmgwHDsFpEgdYFL6mTm5EW+JZf3VAIeS0f2eAoeir6cJUUaK2ktaoDW++z5GnPseRqovkew2LVhpqU0Qrn0ZuweUkk6qz7Q6XLsqbP1IHSvxId/8q7aKZDYtt52l+L74hYKjvIiIuFiW6XkxO4DN8WsfIUDiVXsrr0VktGuC0+9k04LoeEgTgQ8E5xYbRrvjXta9d5bRuL0RAs0UaI17gP9EwC4J4u7kRHnwAuSsCQXD6wXvAF5e6Yc+uMvXurZnaf+43OGA+h+xPic9Yexx9/HJE10ZWqGmw+pGhfcyl3eD+bX2WCp6mY8fy4K6oUZGQm1sTLVc/A976zTZHx1J6kvinojTHZhHKG7VH+Oe9XhPiW+/J0E3NXWHi/7T3zuwmgt171w8LmU0a/NUDbtr4Yx/cjuHZgD0lCMTGscZ9IfQAK6hQ+VtynitrTW6TXeLkoHslAPTQp9TvwwpLPtuelwr4Kz1gAEMbHQ3z1f7dfXcvUA1CAUPBFFbR8A6hCNjQXYLcWpQmoQR05AI8bxwMADPjcMECY/W8zfSUPIDxA6JlAQ//t6JbQPeZuRn/b0t0P17ZCEmpxavu0sXrSuvcbPtx9X8ik4mOZIjwcST6BYecpGN1hdZJUVwI/fCIkzB9Bic/LktKl3ATsZ1KUKSr/tXgSgmLIQTCKLOV8C+WZNrGUH9aOqBzifu/0Hl3IIWrbm+LRqLHn7oKt/+d6V5LxJyu5/fgiWH+Ovfw2Z2ekJ9gkYypLe/XTuAXXNmW4gjZgsYOYELcIgEclwayNY7TosOjDCK0mgAXXQb7YkLWvIp3Qpx8WQPXebNu1zJW8PVdMZkIwnodVqmupK4wcoGLs9HTCHZj0JYpiy/+xq48GVkL7iLYxdzaiMdVASvxX1CFlXqNiG4ip3pTidZdt1EiLSEB8REmVbD2sLl/jGk6RqOg3gypyNErrjT9BE+RCIEPvH8xVE0R4qm0uY8naCdOLOoJegpDp5dGlEr1yZUfwPr/fvtSqdCUx8MS1txBmNZFlyAf9J8cvXoyLU7oOA62CenklozVUR1JsSYkSQu0oAmifOyyvmCsEqii+hw2qaq896aCyZ/cVK7MKzwUioIaTCjp7tXTG8MvndR7/26vS4+/uMBEWpg7zCCNm6VYKVjC86zAnjjvhHbD82tdyzzfydmWlYeobYjY+aNJ8uQpoqTOjgH4V3hIejVM1QBmNTLI48TW6vHw=="},
+  {"id":"EX10","comp":"C4","type":"erreurs","points":2,"enc":"vHFlYFdlyVomZfD2.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"},
+  {"id":"EX11","comp":"C5","type":"numeric","points":2,"enc":"3TXpBhSXI0Mc3oUU.8QI1WNqEFsF8Cje3gxxANx18xiuo1lP9EzsMY0NtmCNGtVCdboBSHKURVP+W3eA7lgPJsTQTHc5rGozeNiNyeKyjgQF1PkaPdpugKKVqVTtyn9j8urqh4F33x45IwPPWKYjxPgmBk/J36+a56Bz0B8hLulBoPZxqYvsSVJcC4nxiqrUz0786MbVGqYe5gPU/CeeDYl5ZOADbsVSb1B5ReVfKbqMK1qJ2iYKrf7ePI2kCqvDJhKEEOL794xNZ52+GZ8wn2mM9a0meDQVk3JjW1M8KDYwxh6CXjcte1aqA8ybb+ZvDVaPxlOxVR+IhFKN/5byeMdmHcOHYsB6Eii2Dfl1mbAISsZAjiboEIULHUt6qowf5/8OCg3uN6UbtNGw725qD5j7PPPi9QJ5unVtjcc6oAR07i05G3j3cPztEXmwFAljw7xuqbY5HGQQ05FCh7vF9WVmZljmEQ6vTK1O0+f6Tl8yEMSwt7yc8fWWlHS5XwSUiGRGBtbMqjgx/dR6wmD1WXOK27i65WOXYMfHkMOFdYY+2dsjBSImEpkr8apz/jM8E4KZl+YtuHdT70sDbn4GCdFVZRWSoDEfKSyMECjH1TUvCIvKwjbdSq3IbRjtJbtPp0onLAcQpjTZ3HAdD0VlkjYFEfe5jkSbnx1QOsG7M6PRdhvlKGDF5KlS7Okz9EGeAAEJXBo23iMKlRmmGlC7neceMDxgwQzb0ovgatzB6OUH/HJeG52UHdkv+R6/dgDa5tRSBxpp09A8/za+942DKHVQfrPmLDuEKGQzbFycuDAS/zrpym/7he3b9fkgs2D9/e4epNEU8FW3XnXLfKEo5tOOzpmmtLRg+D0V72AFyqDiltR+Ktyj8adD7F4sCiJRv9bg5p0c9tl187ZChrA3gx0Pa2wUD3WK/2tR1VLvy7AYOSRPuI67rBmYDQe01OQ641sgWD8peDLoXsrroeOfJ3TQq9IZS0VM6SuCe6r2j49l5rOu0BtSgtouCI5ofgvG1QXDKF4iEcAkX602d7zXqfq+/TA1y55CCsJb4/4iwwADTINIwvMneM+g9eXW3+2mveP3vnF8PNyoeYPjATVy2jFW0vOJcj8fQpD0jtm7gO8lMH6Q="},
+  {"id":"EX12","comp":"C5","type":"pairs","points":3,"enc":"S17jAOfe50cL2NqS.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"},
+  {"id":"EX13","comp":"C6","type":"erreurs","points":2,"enc":"bxD4NVxkhs68g2Sf.dRm+xfFnsFpzWLPzrxFXGg0tY+Hmc/ZDIlUzMyg4uaWiaPjAjarVreAYzCQTpB0Qt6sgyW3j+6rPv8aRuQ7WtlzDhJFHDD0lb4UBvu/tT6of051pFSnGdORG74C2hX1yA8W34GBDCnroOe6yb/cXoPWqhd2el4VFW22FiR0BNXryLFlEhW/xPdYQOkaDwJqhYwB9sj5zXqKqO5Eli6mmM2dvh4t2hatW8bUr31pKbs5bHi2fDHmlzrsKmnS5TTrSbU2N713zZnZvOSE1+ZezXywEdAXLlKbGqLUIL04AdWKI/oWGEnbBbdjxk7azUpnWK0hKvTV+cLM+1JWbooGgBXtuYH9/GpRV+E6e5Ybueid6wmy3AGqVWeLzR3bNJYQpukfCgliySgpzeuby6e0ux8z8bCcd3UYL+j92c/Df6n2i0P4nfkPtr5Y6vq/dVW8CRPIIiy6UgnknFchGPlS0jTJCsEXMfruEkyjMd9bVDbFQ/strlKB5YhrzXd9JHySQDlv8vP9fcyHOsU1NFKmn6XNNDcuPRs3HWvPOd5y5Chv/fWSCsPHA6a9+2JkPWn9gIrTCOwyMZ7kzs45M8ggC2gbaKF/imdP6TuzZPA6b9CJXjX+06wddjxRrGRWiVjL/xjlbA5Eiq9yVHvSLbursQVqqgAqWm2brVCwbDi4x2ephn7FHwISG7Hjwx0JJb3nxNIaNdk+ZfkLLGPJzxt0YdgTT/MD0MoD97LfEovAyuE7Hdvbx9Q8QSDlwggSTPjWKyMuQOY16YwbY/l81fWmEtGXLaLoZWNAd2cseoqqTi2bpufnOShIuzlgqyEyfb4QdHeNFXd99/XyHx+MoMG+1uUQsDKBC2ZRR0cWxnhkPPuH56oOsSz4JuZBLq9XOmdLSwpzjw83kBbMXFC3nbHRXlQKpH5ov28y7d+Mcrrktj3HpaL5bWSOwQ+Swwv5b4mnEVr9varDJ+QCzPG5bk1K0eAMWYS6cKyF/HOOQs9pMfwTUjUaKodf2z0IRekDxTVjgk94BErS2Q4s3Yajks2627wOXm8qwjDkuB9GA8YJXMZN1faTpfXXzmFoa88bPENu4Wf1EcTNB27TKKIntXhwj6wq3yKPHtkxx2YNuvF0CvqPUtst3be9t9NzIAta2jeyEenArN2YnCH5/VATIF/JzhbgqXfwLAD73qiJoTdF7TId1IML8DZcPxeW3Epzu14BUfCT1f3nxc2mjhhoW0930ohXy56WDIrxG+yeteudw7PZfI37FvP4pAxpzmi/0+DiwsKfCa1nrPUPoKlhT1EH73ulTF4vJIp+HJeeRfJZ8Ucs4ljC7SSv/pYr0/odcwETI492yVPaSTR1HrsCiGGRxzoxQDmVtNRXBvqLkIVapNS8hoPqRl0Z8Z8OJfasA6qgq9kz5w8k1wGMAX2flshtc7r6fzaH8N1o8Tp/eWm22HVggk9qhQyWTdB1qpylcWBNd5xUrUd/G2m5jOmD/k0UDO1WZ5IQO2Y6JY/PSybe1/W7mti2e21Hg/99UbR/kXHxKTaJB2E8jpoftQfedi7op4GibqUFRpldkPQAnaznWH5qIAFpGR5tqgZwUefRCO3uaHfIIde3ZmPn3xTjmEDqkX+qZMto2WiRyh2oLg3I/+GKjFfrjXqTfkXz97DUckAhJCEZuBKHP6DaOmS34H6sj+SeLvmbgdrujr6IMn2pe2EnU9pp1c90IYW2I7JzXSG5oinbSHmmturfHklZLGlOWykn2KrV5szVgwXft4GpaHNqda5j+2cIWulaC4K9CDd66jNv/ehjCQFbArBe5wdVeD8dbepZezA2f3Sg9EAzmhnKuDNxfvqHFuP/QbpQxX+KlFhwZ4LC+tUKAyc4OL7llqiyclHSPUbnbL5HfyclhfC0UqtOkAgMdMrWavGJzJLP6V0Nxc+p8GgVs0i3RfAcRITanQzwS3s8bPR3K6jg+DmedhUDGB7MCdzdrHQJ2SJKJnPLjrb9GB9DuWRPIOAODX5FozBF/IslK2opNM9tXrRjnEZCFKBbwPk4wUKU3453uKA3zImxaIR9UpKfLhpxDY1YZ01YVwG3+J23AdZFCFHCL/gA6K9pe7akCJRYOf69L/D7h+uw+3opcy8KoLVZWmOIqX5VathyfO5US0YUw5ElRkSR7X8XXyuM="},
+  {"id":"EX14","comp":"C6","type":"classer","points":2,"enc":"JPgb9YUvH/dq/T8S.ySCl1lJo/K4ShdozJcidrWGUDOrP/qsSnolYJnxU+nYLuTVgczJK8qnvOPRFlcbImNE9OjdfUCdegC9kp9zgk/XGQW2puxYI4Vz4VOh0vzFPDRdr1VJR8B1usxyYhxdmu+5rK2YWCMQ0ZRx2evQuRu60lQv6krrMwOMlG+nMyBEjBVvRj2trD+0uISeqqx+zCTt5N009W/Gh9wsBSDFfJ0WoTnle85NfybRg2GmMWLQhEj2bR8wtepk4Emap/rxxp3tYBmVum8YsX41WhYMLZAj2c0ze1RcIhAFqqk7SIsjEjiWYbqI3ng56K+lVt3gwvUi581on9j3x3ZnrUcxBwHQxdYMV+N6mDNiLlTlW4bXOeeHljqAGdB0IEW5hVLEBOIRrGYktl60wQbycGh0dhnY2CK1yZa1vzpsRsvxSFQJbnfbm/p9Gmt9waFicksq/rySRcfqZjHlrka7fBRq0BeTAEDrUbYOy9Xk0uztkjaHe84yrP9+2sOxSHqXj1CVFDLM78vI8kQKf6+UMEQGM/r9HsIsaY+aZvDdI/UCL6HsqLfwC7t7fYEAUIQcEMvuA/qnQZr7mDuMXkW7QrL4+EnntWZ661RH3lC0OJqehJAXKX9ApQJAdW5PUcAMWnUnPRgDyyggZJDsHxNgbusEAdlm4CimGcWGHUrimT/VxzI86dCYEK098zlOIG/Q8bPGXulDX7EjOOWpmqKQOtVO06N2pj5VvuykMAKf67/o7s/c9J5ryXltKl4dgIYOOCvhrDzN/Rfdy2usr8alrr+XKQA9Yp8708lOvnRZGzoFm2J48aMC/dVts/nOTPuDwGLuPfT2hnkT61XywE+7B81LVKGkmpk42gUnKlLB10yfVkRGfgZxoeWBcGxcce+tUSx/bPxazS9Gxsd3DoGmsnBqgW+iryToeD0ZVzoWyWuuYtQ9bBmnlmCV1x80VuKaMfuOeAh63stBjPfCjkJUS7z5IaX3ENgVcXoK3X6dsw/XOYs8SkeoSyt/Tgl2TnxBRk/X+gapJ1/DMVbHzX0hasyf6ydi5qLz3FateC+BzbJszqRe+0i8nTv+e8Hh6bTglu8fJIFU2xLhZ1naXy8Bt38EuZ9rv9Fbi8sGgXCOsReaCEN+BHnETRqr+JpmTk/VGNiSuPpn/qlIjM63u1pJ56+E+aF7o0XS1ycZrZsdI13D0E2gHIHJqNZzlC6fZKEnGrqBkPCg6OuJEeO/r9jqn/Ae7mUrpBRkm2YOlKITRSSKxuMZJ562Iz1WuGdUNeUxUsW8yFcP7qQ39URsU+XFSfopFF0/vtAq5yRjsWJ+ExyhL5UUOjz7leiXc6Iwj4UxM6qpG7TLwJ2RXfSf/RwAy+GSU3ojaJ8ixf/MdBXi9RUnXPdFSICLeiixiBnwnx8fGpctjSvtRcLMkX4MUx8C504JmZFCZ/hRn1kEA73n4rOR0jxk6ZGdELJKNGT544NKP+AQwBwdqfT17BaJntdtMchgdgHZqENl0flRZ5DFGmZiJyXc4Mt+L5oIOSD8Ut81EihL7I/LAOMOhafnhGLUbs1X/Zf5I5a7MaRvhTIgwdlWL2QeOSe83WSwSUn1rjAd6o6+ff1WnQZ7pQNRPQ3Nxx58LXKACF5hN+QlGuBAXK6our6rwxAWjirzIMREBu0D91sQb4Wqn9kJ0FlyWSlScc+kF0UITt8dgmeuJy0tDtoUfzfqPfHTY1SrMepuRFyM8Yw0NvKQ2TgC6VnFQi5T1"},
+  {"id":"EX15","comp":"C7","type":"numeric","points":2,"enc":"f233LORAKHKACh/O.waRJNZJOFiJ6CNGVnKTRZKUh28/gnapnINDf9uXrDvDQ+1+XuTaHJwiz32/aUtdZ9yhzZgnFJRQFdKBZGAm1BMBemrm21G/edKnu68e9YNqgqU6SQfoRgenLD73oz1qQ1nj67GcO3PaDRSGIV7JNcEJk5aexmQdBu9hOiYhHoG87/Ps67t/eFqvYrTp1xg2QTiP3Qwo9s4DOGuV3EhwIOMM0LfE4+K7Zk2ZsnoL7Qq79SVqP4ZEtjlqqbs66geMveuWOUMypEbYmkdiQ0Xjt0B8dTfabgofzbwtsu5OfgwUYZ5EQNkTsYpnh2E711qB2YdmPm0VfXNfTVUTWRmDNYyW3HmaS41OtaA/g3RjAttnLHlzlMWfSlLZRSRT9MbUVukUzC5JIYCt6mirOt4sWEUK1v/6HzotR9ZA/r6WtymcyYXSOaGNIBqefU5NEbM81xA+AzhTZMNFESUnEfW54O9ym/eeJHLfr4FVPlI9go+Hi7vwy+Xt9rXABysRtbnUvakWuN5SwLdykmTYLxdGMQ2XwiewYTH59Ko0oUBcslM2CFzrj6Conjyi49rZnP00CFah/4dIVXJQ="},
+  {"id":"EX16","comp":"C7","type":"grid","points":3,"enc":"dzurrLVeAPh+6HT6.QALQLzGH0lbkbWWLjTj8UhagmIF3rhFNrywfBz8k4PPOlMJiRbAnp3tbnySbRkTMsurVGmkf2f/Xrc0mXvlj1n8IVxu4G/azxhchSDDF0vBRiDwbHNT90tY/2kzlWc7N3Gn8DbhwK5umgrt/qB0zfjc2pznd6xd/Cd+qerewywSJYfwj6VwghBQp92DVl9QpctfyCZ9Dx1EPPJ/xSeaq2DGcW4YQGjlm0d1LKan4X/XTZ6P2krdMdBexkd6fp13qhQXgfLKbs6ecPqY5oia7XBI5mh7IS8A/Wsg3f/NoWmTzp0Pjwd50sQHHU58l1Pfk/NEcAsNl1vw9nviXrXkOlq2kdJeGOuGVawyHwqAj3ozRlwfzFbJXraOCf+SS5uO/h8FaSapB5G8DY9YCxlXcVaHaBjNZld1YiI1hxQky7FfJtAaUws5ix6pIMR0g1cGHMxVe5A9g96oBhGm8qB5cktPyH1RUIEK8/4DcaoBuKIHqe0Appz5XdyyLi1EINv+pmkNhbQ/eHH1QsDgNFmsmv1PWwMbGJp8022FKopsQWAIVZ0eoDdH7PP8zFq+d04HqEFQlZQyBu7gsqs1hB2Ac9h1veoWL87nAxNaTMj4y5iWvVJiMIp7pz+YG0lbvbhTQIMsdxIAEK7pSVW/giF6myVGRw76JR/BXQAAtwX1J1EI3x+7xcSF04P01+WMPfA6zVh5OfeRz4iEt/1xUdr94R4B28TtQHq2Vu/MQPDu7ttEfEPz83CVXSZW1P6NkWJFXJAw7CQdKIj5Q3ViB0VS8o2Y1Kqg9/S5HJeuwQQmeR5iXKtqvdgSNTU3fck4L4DhEnCX+TBm0UFWXahHiacCJV1ptxc4Menvh5hHISol6c7qd0URm1jJDf0EsDA7ti26oRPUAbPfnjRlDx0ug5wH/rPQTZB1cgO4lOGJhyTM1+MP5/pAXi5wdC0neWGaPyTyRVjomPJaeb+L74y0MkSF+3Z5+/CzAgeIISRIIpRdnp1a+DzJgjpiOguOVrKbRHQl1z0PDHBs8f+g/dY1VCKRwfXjNBhs3EzWFBmpLS+7dwV5RDsKkQGj1x5MRjflY7sSbvunGdNKYM9yA4anh1ZjrrZ4NoqOzM/yMjWXuuxXSCYmZKQuVur9atF3KZNOpMwZnGn3MfAcdRLazqbCZj/Gdfwg="},
+  {"id":"EX17","comp":"C7","type":"numeric","points":2,"enc":"wt0bIuYUj4G5AJmm.kU/Ic7kYOXSPhXfDRV6xMMJ00B98+LEo3NlHNRNtbjjxAtnWCKHoDlgGzJK7IBzg7PzLd/xN6foNMy5ah7dR8KlXOvqnN14Yd6XBJJPw/OHMi+cb3hyxw1VeW7oiReiZVdsB8l3YGzJ+RqSYoQgKMOqC4yBoxM+5O88+2nQkI2XwQKF4271hOBddrFZ8MQ9TmuxqAx3XWidnp+HtDDr9wTQzikmPyefvwcAJH7m3Vzih1kjowrpDTQFTS9h9xyS0tklQ2UqPiswwT1SCmofP5HiHoR5Cbw+hSbL68DxeDB+lJqM2QrIa2T09zAemd3D2BRf3JV8WM54gzIxM6nstExC558oyknQkzcFhAeTUTcFaF3lrrY897CkI71V2Wpo8UGcaAeWRxqmKcf6XvWEBANpHJpBLym4jYkYnv8oOAxpHMNZSVDqmFIKmtzTOSL+YzZ3+Ohy0uljOtD90fAAA70+VTlouEhM4OKBdFRIt93sUJSPcNH4l6g=="}
+];
+// FIN EXERCISES
+
+// ============================================================
+// ÉTAT
+// ============================================================
+const STATE = {
+  email: '',
+  classe: '',
+  session: '',
+  timerInterval: null,
+  startTime: null,
+  elapsed: 0,
+  currentQuiz: 0,
+  currentEx: 0,
+  quizPoints: 0,
+  exPoints: 0,
+  quizAnswered: Array(CONFIG.NB_QUIZ).fill(false),
+  exAnswered: Array(CONFIG.NB_EXERCICES).fill(false),
+  exAttempts: Array(CONFIG.NB_EXERCICES).fill(0),
+  exBest: Array(CONFIG.NB_EXERCICES).fill(0),       // meilleurs points partiels (6.8)
+  exTimeSpent: Array(CONFIG.NB_EXERCICES).fill(0),  // temps cumulé par exercice
+  quizTime: 0,
+  exTime: 0,
+  phase: 'login',                                   // quiz | transition | exercise | summary
+  quizTotalSent: false,
+  finished: false,
+  questionStartTime: 0,
+  comp: {}
+};
+
+// Champs sauvegardés pour la reprise
+const PERSIST = ['email', 'classe', 'session', 'elapsed', 'currentQuiz', 'currentEx', 'quizPoints', 'exPoints',
+  'quizAnswered', 'exAnswered', 'exAttempts', 'exBest', 'exTimeSpent', 'quizTime', 'exTime',
+  'phase', 'quizTotalSent', 'finished', 'comp'];
+
+// ============================================================
+// OUTILS
+// ============================================================
+function esc(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+// Typographie française : espace insécable avant ? ! : ; », après «, et dans les nombres (1 200)
+function fr(html) {
+  return String(html).replace(/ ([?!:;»])/g, ' $1').replace(/« /g, '« ')
+                     .replace(/(\d) (?=\d{3}(?!\d))/g, '$1 ').replace(/(\d) ([€%])/g, '$1 $2')
+                     .replace(/BE\d{2}(?: \d{4}){3}/g, m => m.replace(/ /g, ' '))     // un IBAN ne se coupe pas
+                     .replace(/\d{3}-\d{7}-\d{2}/g, m => m.replace(/-/g, '‑'));        // un ancien numéro non plus
+}
+function stripHtml(s) { return String(s).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(); }
+function fmtTime(s) {
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return [h, m, sec].map(n => String(n).padStart(2, '0')).join(':');
+}
+function fmtPts(x) { return String(Math.round(x * 10) / 10).replace('.', ','); }
+function secondsSince(t) { return Math.max(0, Math.round((Date.now() - t) / 1000)); }
+const pointsPartiels = (ok, total, max) => Math.round((ok / total) * max * 2) / 2;
+function pick1(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+// Lecture d'un nombre saisi : virgule ou point pour les décimales, espaces et unité ignorés
+function parseAmount(raw) {
+  if (raw === null || raw === undefined) return NaN;
+  let s = String(raw).trim().toLowerCase().replace(/[\s  ]/g, '')
+    .replace(/(€|%|euros?|eur|mois|jours?|ans?)$/g, '');
+  if (s === '') return NaN;
+  if (/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, '');   // 12.500 → 12500 (point des milliers)
+  s = s.replace(/,/g, '.');
+  if (!/^-?\d*\.?\d+$/.test(s)) return NaN;
+  return parseFloat(s);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const inEval = ['screenQuiz', 'screenTransition', 'screenExercise'].includes(id);
+  document.getElementById('btnPause').hidden = !inEval;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const done = STATE.quizAnswered.filter(Boolean).length + STATE.exAnswered.filter(Boolean).length;
+  const total = CONFIG.NB_QUIZ + CONFIG.NB_EXERCICES;
+  document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+  return { done, total };
+}
+
+// ============================================================
+// COMMUNICATION GOOGLE SHEET (9.5 et 9.6)
+// ============================================================
+function jsonp(params) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    const timer = setTimeout(() => {
+      reject(new Error('Délai dépassé'));
+      window[cbName] = function () {};
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }, 20000);
+    window[cbName] = function (data) {
+      clearTimeout(timer);
+      resolve(data);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    const qs = Object.entries(params)
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    const script = document.createElement('script');
+    script.src = `${CONFIG.SCRIPT_URL}?callback=${cbName}&${qs}`;
+    script.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error('Erreur réseau'));
+      delete window[cbName];
+    };
+    document.body.appendChild(script);
+  });
+}
+
+function postData(payload) {
+  return fetch(CONFIG.SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',                              // OBLIGATOIRE
+    keepalive: true,                              // l'envoi aboutit même si l'élève ferme l'onglet
+    headers: { 'Content-Type': 'text/plain' },    // PAS 'application/json'
+    body: JSON.stringify(payload)
+  }).catch(err => console.error('Envoi impossible', err));
+}
+
+function submitRow(fields) {
+  return postData(Object.assign({
+    action: 'submit_answer',
+    email: STATE.email,
+    classe: STATE.classe,
+    application: CONFIG.APP_NAME,
+    session: STATE.session
+  }, fields));
+}
+
+// ============================================================
+// REPRISE — sauvegarde locale après chaque réponse
+// ============================================================
+function saveKey(email) { return CONFIG.SAVE_PREFIX + CONFIG.APP_NAME + '|' + email; }
+
+function saveProgress() {
+  if (!STATE.email || !STATE.session) return;
+  if (STATE.timerInterval) STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+  const data = { v: 1, app: CONFIG.APP_NAME, savedAt: new Date().toISOString(), state: {} };
+  PERSIST.forEach(k => { data.state[k] = STATE[k]; });
+  try { localStorage.setItem(saveKey(STATE.email), JSON.stringify(data)); } catch (e) { /* stockage indisponible */ }
+}
+
+function loadProgress(email) {
+  try {
+    const raw = localStorage.getItem(saveKey(email));
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    const s = data && data.state;
+    if (!s || data.app !== CONFIG.APP_NAME || !s.session || s.finished) return null;
+    if (!Array.isArray(s.quizAnswered) || s.quizAnswered.length !== CONFIG.NB_QUIZ) return null;
+    if (!Array.isArray(s.exAnswered) || s.exAnswered.length !== CONFIG.NB_EXERCICES) return null;
+    return data;
+  } catch (e) { return null; }
+}
+
+function clearProgress(email) {
+  try { localStorage.removeItem(saveKey(email || STATE.email)); } catch (e) { /* rien */ }
+}
+
+function countDone(s) { return s.quizAnswered.filter(Boolean).length + s.exAnswered.filter(Boolean).length; }
+
+function nextStepLabel(s) {
+  const q = s.quizAnswered.indexOf(false);
+  if (q !== -1) return `Partie 1 — Quiz, question ${q + 1} sur ${CONFIG.NB_QUIZ}`;
+  const e = s.exAnswered.indexOf(false);
+  if (e !== -1) return `Partie 2 — Exercice ${e + 1} sur ${CONFIG.NB_EXERCICES}`;
+  return 'Bilan final';
+}
+
+function firstName(email) {
+  const p = email.split('@')[0].split(/[._-]/)[0];
+  return p && p.length > 1 ? p.charAt(0).toUpperCase() + p.slice(1) : '';
+}
+
+window.addEventListener('pagehide', () => { if (['quiz', 'transition', 'exercise'].includes(STATE.phase)) saveProgress(); });
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && ['quiz', 'transition', 'exercise'].includes(STATE.phase)) saveProgress();
+});
+
+// ============================================================
+// LOGIN
+// ============================================================
+function resetLoginBtn() {
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = false;
+  btn.textContent = "Commencer l'évaluation";
+}
+
+async function handleLogin() {
+  const input = document.getElementById('emailInput');
+  const errorEl = document.getElementById('loginError');
+  const btn = document.getElementById('btnLogin');
+  const email = input.value.trim().toLowerCase();
+  errorEl.textContent = '';
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorEl.textContent = "Entre une adresse e-mail valide (exemple : prenom.nom@istlm.org).";
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Vérification…';
+
+  try {
+    // Step 1: check_email — récupère aussi la clé de déchiffrement
+    const emailResult = await jsonp({ action: 'check_email', email: email });
+
+    // Verrou fermé
+    if (emailResult && emailResult.error === 'locked') {
+      showScreen('screenLocked');
+      return;
+    }
+
+    if (!emailResult || !emailResult.found) {
+      errorEl.textContent = "Cette adresse e-mail n'est pas enregistrée. Vérifie l'orthographe ou préviens ton professeur.";
+      resetLoginBtn();
+      return;
+    }
+
+    if (!DATA_READY && !emailResult.cle) {
+      errorEl.textContent = "Erreur technique : clé absente. Préviens ton professeur.";
+      resetLoginBtn();
+      return;
+    }
+
+    // Step 1b : importer la clé et déchiffrer toutes les données (une seule fois)
+    if (!DATA_READY) {
+      try {
+        const cryptoKey = await importKey(emailResult.cle);
+        await decryptAllData(cryptoKey);
+        applyShuffles();
+        DATA_READY = true;
+      } catch (cryptoErr) {
+        console.error(cryptoErr);
+        errorEl.textContent = "Erreur technique au chargement. Préviens ton professeur.";
+        resetLoginBtn();
+        return;
+      }
+    }
+
+    STATE.email = email;
+    STATE.classe = emailResult.classe || '';
+
+    // Step 2: check_access (avec gestion du verrou)
+    const accessResult = await jsonp({ action: 'check_access', email: email, app: CONFIG.APP_NAME });
+    if (accessResult && accessResult.error === 'locked') { showScreen('screenLocked'); return; }
+    const status = accessResult && accessResult.status;
+    if (status === 'completed') {
+      clearProgress(email);
+      showScreen('screenDone');
+      return;
+    }
+
+    // Reprise : évaluation déjà commencée
+    const saved = loadProgress(email);
+    if (status === 'in_progress') {
+      showResumeScreen(saved);
+      return;
+    }
+    if (saved) clearProgress(email);   // accès remis à zéro par le professeur
+
+    // Step 3: start_eval
+    await startEvaluation();
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = 'Erreur de connexion. Vérifie ta connexion internet et réessaie.';
+    resetLoginBtn();
+  }
+}
+
+document.getElementById('emailInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleLogin();
+});
+
+function resetStateForNewSession() {
+  STATE.elapsed = 0;
+  STATE.currentQuiz = 0;
+  STATE.currentEx = 0;
+  STATE.quizPoints = 0;
+  STATE.exPoints = 0;
+  STATE.quizAnswered = Array(CONFIG.NB_QUIZ).fill(false);
+  STATE.exAnswered = Array(CONFIG.NB_EXERCICES).fill(false);
+  STATE.exAttempts = Array(CONFIG.NB_EXERCICES).fill(0);
+  STATE.exBest = Array(CONFIG.NB_EXERCICES).fill(0);
+  STATE.exTimeSpent = Array(CONFIG.NB_EXERCICES).fill(0);
+  STATE.quizTime = 0;
+  STATE.exTime = 0;
+  STATE.quizTotalSent = false;
+  STATE.finished = false;
+  STATE.session = new Date().toISOString();
+  initComp();
+}
+
+async function startEvaluation() {
+  // Step 3: start_eval (avec gestion du verrou)
+  const startResult = await jsonp({ action: 'start_eval', email: STATE.email, app: CONFIG.APP_NAME });
+  if (startResult && startResult.error === 'locked') { showScreen('screenLocked'); return; }
+  resetStateForNewSession();
+  postData({
+    action: 'register_app',
+    application: CONFIG.APP_NAME,
+    nb_quiz: CONFIG.NB_QUIZ,
+    nb_exercices: CONFIG.NB_EXERCICES,
+    points_max: CONFIG.POINTS_MAX
+  });
+  STATE.phase = 'quiz';
+  saveProgress();
+  enterApp();
+  showScreen('screenQuiz');
+  renderQuiz();
+}
+
+function enterApp() {
+  document.getElementById('appHeader').hidden = false;
+  document.getElementById('headerEmail').textContent = STATE.email;
+  startTimer();
+  updateProgress();
+}
+
+function showResumeScreen(saved) {
+  const box = document.getElementById('resumeContent');
+  const name = firstName(STATE.email);
+  if (saved) {
+    const s = saved.state;
+    const total = CONFIG.NB_QUIZ + CONFIG.NB_EXERCICES;
+    box.innerHTML = `
+      <h2>Bon retour${name ? ', ' + esc(name) : ''} ! 👋</h2>
+      <p class="subtitle" style="margin-top:8px;">Tu avais commencé cette évaluation. Ta progression a été retrouvée sur cet appareil.</p>
+      <div class="info-box">
+        <p>✅ Tu as déjà répondu à <b>${countDone(s)} question${countDone(s) > 1 ? 's' : ''} sur ${total}</b>.</p>
+        <p>➡️ Tu reprends à : <b>${esc(nextStepLabel(s))}</b>.</p>
+      </div>
+      <div class="screen-actions">
+        <button type="button" class="btn btn-primary btn-block" id="btnDoResume">Reprendre là où je me suis arrêté(e)</button>
+      </div>`;
+    document.getElementById('btnDoResume').onclick = () => resumeEvaluation(saved);
+  } else {
+    box.innerHTML = `
+      <h2>Tu as déjà commencé cette évaluation</h2>
+      <p class="subtitle" style="margin-top:8px;">Mais ta progression n'est pas enregistrée sur cet appareil.</p>
+      <div class="info-box">
+        <p>💻 Tu as commencé sur un autre ordinateur ou un autre téléphone ? <b>Retourne sur cet appareil-là</b> (même navigateur) : tu reprendras là où tu t'es arrêté(e).</p>
+        <p>🙋 Ce n'est pas possible, ou ton professeur te demande de recommencer ? <b>Demande-lui son accord</b>, puis clique sur le bouton ci-dessous.</p>
+      </div>
+      <div class="screen-actions">
+        <button type="button" class="btn btn-secondary btn-block" id="btnRestart">Recommencer depuis le début</button>
+        <div class="error" id="restartError" role="alert"></div>
+      </div>`;
+    const btn = document.getElementById('btnRestart');
+    btn.onclick = async () => {
+      if (!btn.dataset.confirm) {
+        btn.dataset.confirm = '1';
+        btn.textContent = "Confirmer : je recommence depuis le début";
+        btn.classList.add('btn-primary'); btn.classList.remove('btn-secondary');
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Préparation…';
+      try { await startEvaluation(); }
+      catch (err) {
+        console.error(err);
+        document.getElementById('restartError').textContent = 'Erreur de connexion. Vérifie ta connexion internet et réessaie.';
+        btn.disabled = false;
+        btn.textContent = "Confirmer : je recommence depuis le début";
+      }
+    };
+  }
+  showScreen('screenResume');
+}
+
+function resumeEvaluation(saved) {
+  PERSIST.forEach(k => { if (saved.state[k] !== undefined) STATE[k] = saved.state[k]; });
+  if (!STATE.comp || !Object.keys(STATE.comp).length) initComp();
+  enterApp();
+  routeFromState();
+}
+
+// Ouvre l'écran correspondant à la première question non terminée
+function routeFromState() {
+  const q = STATE.quizAnswered.indexOf(false);
+  if (q !== -1) {
+    STATE.currentQuiz = q;
+    STATE.phase = 'quiz';
+    showScreen('screenQuiz');
+    renderQuiz();
+    return;
+  }
+  if (!STATE.quizTotalSent) sendQuizTotal();
+  const e = STATE.exAnswered.indexOf(false);
+  if (e !== -1) {
+    if (STATE.phase === 'exercise') {
+      STATE.currentEx = e;
+      showScreen('screenExercise');
+      renderExercise();
+    } else {
+      showTransition();
+    }
+    return;
+  }
+  finishEvaluation();
+}
+
+// ============================================================
+// DÉCHIFFREMENT AES-GCM (Web Crypto API)
+// Chaque question porte un champ "enc" : tout son contenu, chiffré en un bloc
+// ============================================================
+let DATA_READY = false;
+
+async function importKey(hexKey) {
+  const keyBytes = new Uint8Array(
+    hexKey.match(/.{1,2}/g).map(b => parseInt(b, 16))
+  );
+  return await window.crypto.subtle.importKey(
+    'raw', keyBytes, 'AES-GCM', false, ['decrypt']
+  );
+}
+
+async function decryptText(encrypted, cryptoKey) {
+  if (encrypted === null || encrypted === undefined) return encrypted;
+  const [ivB64, cipherB64] = encrypted.split('.');
+  const iv = Uint8Array.from(atob(ivB64), c => c.charCodeAt(0));
+  const cipher = Uint8Array.from(atob(cipherB64), c => c.charCodeAt(0));
+  const decrypted = await window.crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: iv },
+    cryptoKey,
+    cipher
+  );
+  return new TextDecoder().decode(decrypted);
+}
+
+async function decryptAllData(cryptoKey) {
+  // Tout est déchiffré avant d'être appliqué : une clé fausse ne laisse aucune question à moitié modifiée
+  const quiz = await Promise.all(QUIZ.map(q => decryptText(q.enc, cryptoKey)));
+  const exos = await Promise.all(EXERCISES.map(ex => decryptText(ex.enc, cryptoKey)));
+  QUIZ.forEach((q, i) => { Object.assign(q, JSON.parse(quiz[i])); delete q.enc; });
+  EXERCISES.forEach((ex, i) => { Object.assign(ex, JSON.parse(exos[i])); delete ex.enc; });
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer() {
+  stopTimer();
+  STATE.startTime = Date.now() - STATE.elapsed * 1000;
+  const tick = () => {
+    STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+    document.getElementById('timer').textContent = fmtTime(STATE.elapsed);
+  };
+  tick();
+  STATE.timerInterval = setInterval(tick, 1000);
+}
+function stopTimer() {
+  if (STATE.timerInterval) {
+    STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+    clearInterval(STATE.timerInterval);
+    STATE.timerInterval = null;
+  }
+}
+
+// PAUSE
+document.getElementById('btnPause').addEventListener('click', () => {
+  saveProgress();
+  stopTimer();
+  const p = updateProgress();
+  document.getElementById('pauseProgress').innerHTML =
+    `✅ Tu as répondu à <b>${p.done} question${p.done > 1 ? 's' : ''} sur ${p.total}</b>. Prochaine étape : <b>${esc(nextStepLabel(STATE))}</b>.`;
+  showScreen('screenPause');
+});
+document.getElementById('btnResumeNow').addEventListener('click', () => {
+  startTimer();
+  routeFromState();
+});
+
+// ============================================================
+// RANDOMISATION — tous les types, une seule fois au chargement
+// (ordre stable pendant la session, différent entre élèves)
+// ============================================================
+function fisherYates(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function shuffleOptions(arr, correctIndex) {
+  const correctText = arr[correctIndex];
+  const shuffled = fisherYates(arr.slice());
+  return { options: shuffled, correct: shuffled.indexOf(correctText) };
+}
+
+function applyShuffles() {
+  QUIZ.forEach(q => {
+    const s = shuffleOptions(q.options, q.correct);
+    q.options = s.options;
+    q.correct = s.correct;
+  });
+  EXERCISES.forEach(ex => {
+    if (ex.type === 'qcm') {
+      const s = shuffleOptions(ex.options, ex.correct);
+      ex.options = s.options; ex.correct = s.correct;
+    }
+    if (ex.type === 'multi') {                      // remappage des index corrects
+      const correctTexts = ex.multi.map(i => ex.options[i]);
+      ex.options = fisherYates(ex.options.slice());
+      ex.multi = correctTexts.map(t => ex.options.indexOf(t)).sort((a, b) => a - b);
+    }
+    if (ex.type === 'classer') { ex.items = fisherYates(ex.items.slice()); }
+    if (ex.type === 'pairs')   { ex.bank  = fisherYates(ex.bank.slice());
+                                 ex.slots = fisherYates(ex.slots.slice()); }
+    if (ex.type === 'schema')  { ex.bank  = fisherYates(ex.bank.slice()); }
+    // 'erreurs' : jamais mélangé (texte suivi, numéros P1, P2… comparables)
+    // 'schema'  : ex.answers jamais mélangé (lié aux data-slot du document)
+    // 'grid'    : champs jamais mélangés (ordre logique du calcul)
+  });
+}
+// applyShuffles() est appelé APRÈS decryptAllData(), dans handleLogin (architecture v5.0, 9.6)
+
+// ============================================================
+// QUIZ
+// ============================================================
+let quizPick = null;
+
+function renderQuiz() {
+  const i = STATE.currentQuiz, q = QUIZ[i];
+  quizPick = null;
+  STATE.questionStartTime = Date.now();
+  document.getElementById('quizCard').innerHTML = `
+    <div class="q-meta">
+      <span class="chip">Partie 1 · Quiz</span>
+      <span class="q-count">Question ${i + 1} sur ${CONFIG.NB_QUIZ}</span>
+    </div>
+    <div class="q-top ${q.ico ? '' : 'no-illu'}">
+      <div class="q-text">${fr(q.text)}</div>
+      ${illu(q)}
+    </div>
+    <div class="options" id="quizOptions">
+      ${q.options.map((o, k) => `<button type="button" class="qcm-option" data-opt="${k}">
+          <span class="opt-letter">${'ABCD'[k]}</span><span class="opt-text">${fr(esc(o))}</span></button>`).join('')}
+    </div>
+    <div id="quizFeedback"></div>
+    <div class="actions">
+      <span class="attempt-info">☝️ Un seul essai : choisis, puis valide.</span>
+      <button type="button" class="btn btn-primary" id="btnQuizValidate" disabled>Valider</button>
+      <button type="button" class="btn btn-primary" id="btnQuizNext" hidden>${i < CONFIG.NB_QUIZ - 1 ? 'Question suivante →' : 'Terminer le quiz →'}</button>
+    </div>`;
+  document.querySelectorAll('#quizOptions .qcm-option').forEach(el => {
+    el.onclick = () => {
+      if (el.classList.contains('locked')) return;
+      quizPick = parseInt(el.dataset.opt, 10);
+      document.querySelectorAll('#quizOptions .qcm-option').forEach(o => o.classList.toggle('selected', o === el));
+      document.getElementById('btnQuizValidate').disabled = false;
+    };
+  });
+  document.getElementById('btnQuizValidate').onclick = validateQuiz;
+  document.getElementById('btnQuizNext').onclick = nextQuiz;
+  updateProgress();
+}
+
+function validateQuiz() {
+  const i = STATE.currentQuiz, q = QUIZ[i];
+  if (quizPick === null || STATE.quizAnswered[i]) return;
+  const correct = quizPick === q.correct;
+  const points = correct ? q.points : 0;
+  const timeTaken = secondsSince(STATE.questionStartTime);
+
+  document.querySelectorAll('#quizOptions .qcm-option').forEach(o => {
+    o.classList.add('locked');
+    if (parseInt(o.dataset.opt, 10) === quizPick) {
+      o.classList.remove('selected');
+      o.classList.add(correct ? 'correct' : 'incorrect');
+    }
+  });
+  document.getElementById('quizFeedback').innerHTML = correct
+    ? `<div class="feedback ok"><span class="fb-ico">✅</span><span>${pick1(['Bonne réponse, bravo !', 'Exact, bien joué !', "C'est la bonne réponse !"])}</span></div>`
+    : `<div class="feedback ko"><span class="fb-ico">❌</span><span>${pick1(["Ce n'est pas la bonne réponse. Pas grave : on continue !", "Pas cette fois… Garde confiance, la suite t'attend !"])}</span></div>`;
+  document.getElementById('btnQuizValidate').hidden = true;
+  document.getElementById('btnQuizNext').hidden = false;
+  document.querySelector('#quizCard .attempt-info').textContent = '';
+
+  STATE.quizAnswered[i] = true;
+  STATE.quizPoints += points;
+  STATE.quizTime += timeTaken;
+  creditComp(q, points, 1, timeTaken, false);
+  submitRow({
+    volet: 'Quiz',
+    partie: `Quiz — ${q.id}`,
+    question: stripHtml(q.text),
+    reponse_eleve: q.options[quizPick],
+    reponse_correcte: q.options[q.correct],
+    points: points,
+    points_max: q.points,
+    tentative: 1,
+    temps_secondes: timeTaken
+  });
+  saveProgress();
+  updateProgress();
+}
+
+function nextQuiz() {
+  if (STATE.currentQuiz < CONFIG.NB_QUIZ - 1) {
+    STATE.currentQuiz++;
+    saveProgress();
+    renderQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    sendQuizTotal();
+    showTransition();
+  }
+}
+
+function sendQuizTotal() {
+  if (STATE.quizTotalSent) return;
+  submitRow({
+    volet: 'Quiz',
+    partie: 'TOTAL — Quiz',
+    question: '',
+    reponse_eleve: '',
+    reponse_correcte: '',
+    points: STATE.quizPoints,
+    points_max: 10,                                 // TOUJOURS 10 pour le quiz
+    tentative: 1,
+    temps_secondes: STATE.quizTime
+  });
+  STATE.quizTotalSent = true;
+  STATE.phase = 'transition';
+  saveProgress();
+}
+
+// ============================================================
+// TRANSITION
+// ============================================================
+function showTransition() {
+  STATE.phase = 'transition';
+  saveProgress();
+  showScreen('screenTransition');
+  updateProgress();
+}
+document.getElementById('btnStartExercises').addEventListener('click', () => {
+  STATE.phase = 'exercise';
+  STATE.currentEx = Math.max(0, STATE.exAnswered.indexOf(false));
+  saveProgress();
+  showScreen('screenExercise');
+  renderExercise();
+});
+
+// ============================================================
+// EXERCICES
+// ============================================================
+let EXUI = { pick: null, place: {}, sel: [], vals: {}, locked: false, confirmPass: false };
+const A_ITEMS = ['classer', 'pairs', 'schema', 'multi', 'erreurs', 'grid'];   // notés au prorata (6.8)
+
+function renderExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  EXUI = { pick: null, place: {}, sel: [], vals: {}, locked: false, confirmPass: false };
+  STATE.questionStartTime = Date.now();
+  document.getElementById('exCard').innerHTML = `
+    <div class="q-meta">
+      <span class="chip">Partie 2 · Exercices</span>
+      <span class="q-count">Exercice ${i + 1} sur ${CONFIG.NB_EXERCICES}</span>
+    </div>
+    ${ex.context ? `<div class="q-context">${fr(esc(ex.context))}</div>` : ''}
+    <div class="q-top ${ex.ico ? '' : 'no-illu'}">
+      <div class="q-text">${fr(ex.text)}${ex.qsub ? `<span class="q-sub">${fr(ex.qsub)}</span>` : ''}</div>
+      ${illu(ex)}
+    </div>
+    ${ex.doc ? `<div class="q-doc">${fr(ex.doc)}</div>` : ''}
+    <div id="exBody"></div>
+    <div id="exFeedback"></div>
+    <div class="actions">
+      <span class="attempt-info" id="exAttemptInfo"></span>
+      <button type="button" class="btn btn-ghost" id="btnExPass">Passer</button>
+      <button type="button" class="btn btn-primary" id="btnExValidate" disabled>Valider</button>
+      <button type="button" class="btn btn-primary" id="btnExNext" hidden>${i < CONFIG.NB_EXERCICES - 1 ? 'Exercice suivant →' : 'Voir mon bilan →'}</button>
+    </div>`;
+  document.getElementById('btnExValidate').onclick = submitExercise;
+  document.getElementById('btnExPass').onclick = passExercise;
+  document.getElementById('btnExNext').onclick = nextExercise;
+  updateAttemptInfo(ex);
+  paintExercise(ex);
+  updateProgress();
+}
+
+function updateAttemptInfo(ex) {
+  const max = maxTentatives(ex), used = STATE.exAttempts[STATE.currentEx];
+  document.getElementById('exAttemptInfo').textContent = max === 1
+    ? '☝️ Un seul essai pour cet exercice.'
+    : `✏️ Essai ${Math.min(used + 1, max)} sur ${max}`;
+}
+
+function refreshValidate(ex) {
+  const btn = document.getElementById('btnExValidate');
+  if (btn) btn.disabled = EXUI.locked || !checkExercise(ex).ready;
+}
+
+function paintExercise(ex) {
+  const body = document.getElementById('exBody');
+  let html = '';
+  if (ex.type === 'multi')   html = renderMulti(ex);
+  if (ex.type === 'erreurs') html = renderErreurs(ex);
+  if (ex.type === 'classer') html = renderClasser(ex);
+  if (ex.type === 'pairs')   html = renderPairs(ex);
+  if (ex.type === 'schema')  html = renderSchema(ex);
+  if (ex.type === 'numeric') html = renderNumeric(ex);
+  if (ex.type === 'grid')    html = renderGrid(ex);
+  body.innerHTML = html;
+  body.classList.toggle('is-locked', EXUI.locked);
+  bindExercise(ex);
+  refreshValidate(ex);
+}
+
+function pickHint(label) {
+  return `<div class="hint-pick">${EXUI.pick !== null && !EXUI.locked ? '👉 ' + label : ''}</div>`;
+}
+
+/* ----- Saisie numérique : placeholder neutre, jamais la réponse (13.1) ----- */
+function numField(k, unit) {
+  const v = EXUI.vals[k] !== undefined ? EXUI.vals[k] : '';
+  return `<div class="num-row"><input type="text" class="num-input" id="numField${k}" data-field="${k}" value="${esc(v)}"
+      placeholder="${unit === '€' ? 'Montant' : 'Réponse'}" autocomplete="off" inputmode="decimal" ${EXUI.locked ? 'disabled' : ''}>
+    <span class="num-unit">${esc(unit || '')}</span></div>`;
+}
+const NUM_HINT = '<div class="num-hint">Écris seulement le nombre. Virgule ou point pour les décimales.</div>';
+
+function renderNumeric(ex) { return numField(0, ex.unit) + NUM_HINT; }
+
+function renderGrid(ex) {
+  return `<div class="grid-rows">${ex.fields.map((f, k) => `
+    <div class="grid-row"><label class="grid-lbl" for="numField${k}">${fr(esc(f.lbl))}</label>${numField(k, f.unit || ex.unit)}</div>`).join('')}</div>` + NUM_HINT;
+}
+
+/* ----- Sélection multiple ----- */
+function renderMulti(ex) {
+  return `<div class="multi-list">${ex.options.map((o, k) => `
+    <button type="button" class="multi-opt ${EXUI.sel.includes(k) ? 'checked' : ''}" data-multi="${k}" aria-pressed="${EXUI.sel.includes(k)}">
+      <span class="box"></span><span>${fr(esc(o))}</span></button>`).join('')}</div>`;
+}
+
+/* ----- Chasse aux erreurs ----- */
+function renderErreurs(ex) {
+  return `<div class="doc">
+    <div class="doc-title">${fr(esc(ex.docTitle || ''))}</div>
+    ${ex.segments.map((s, k) => `
+      <button type="button" class="seg ${EXUI.sel.includes(k) ? 'flagged' : ''}" data-seg="${k}" aria-pressed="${EXUI.sel.includes(k)}">
+        <span class="seg-num">${k + 1}</span><span class="seg-text">${fr(esc(s.t))}</span><span class="seg-flag">🚩</span>
+      </button>`).join('')}
+  </div>`;
+}
+
+/* ----- Tri en colonnes — data-bin sur la COLONNE (13.13) ----- */
+function renderClasser(ex) {
+  const placedIdx = Object.keys(EXUI.place).map(Number);
+  const reserve = ex.items.map((it, i) => placedIdx.includes(i) ? '' :
+    `<button type="button" class="tag ${EXUI.pick === i ? 'picked' : ''}" data-tag="${i}">${fr(esc(it.t))}</button>`).join('');
+  const reserveHTML = reserve.replace(/\s/g, '') === ''
+    ? '<span class="reserve-empty">Toutes les étiquettes sont placées.</span>' : reserve;
+
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const bins = ex.bins.map((b, bi) => {
+    const inside = ex.items.map((it, i) => EXUI.place[i] === bi
+      ? `<div class="tag placed" data-placed="${i}">${fr(esc(it.t))}</div>` : '').join('');
+    const content = inside === '' ? '<span class="bin-empty">Dépose ici</span>' : inside;
+    return `<div class="bin ${droppable}" data-bin="${bi}">
+        <div class="bin-title">${fr(esc(b.name))}</div>
+        <div class="bin-drop">${content}</div>
+      </div>`;
+  }).join('');
+
+  return `<div class="reserve" id="reserve"><span class="reserve-label">Étiquettes à ranger</span>${reserveHTML}</div>
+    ${pickHint('Clique maintenant sur la colonne choisie.')}
+    <div class="bins" style="--nb:${ex.bins.length}">${bins}</div>`;
+}
+
+/* ----- Réserve commune à pairs et schema (l'identité de l'étiquette est data-bank) ----- */
+function renderBank(ex, label) {
+  const used = Object.values(EXUI.place);
+  const reserve = ex.bank.map(w => used.includes(w) ? '' :
+    `<button type="button" class="tag ${EXUI.pick === w ? 'picked' : ''}" data-bank="${esc(w)}">${fr(esc(w))}</button>`).join('');
+  const reserveHTML = reserve.replace(/\s/g, '') === ''
+    ? '<span class="reserve-empty">La réserve est vide.</span>' : reserve;
+  return `<div class="reserve" id="reserve"><span class="reserve-label">${label}</span>${reserveHTML}</div>`;
+}
+
+/* ----- Appariement ----- */
+function renderPairs(ex) {
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const rows = ex.slots.map((s, k) => `
+    <div class="pair-row ${droppable}" data-slot="${k}">
+      <div class="pair-label">${fr(esc(s.lbl))}</div>
+      <div class="pair-drop">${EXUI.place[k] !== undefined
+        ? `<span class="tag placed">${fr(esc(EXUI.place[k]))}</span>`
+        : '<span class="slot-empty">Dépose ici</span>'}</div>
+    </div>`).join('');
+  return renderBank(ex, 'Étiquettes à placer') + pickHint('Clique maintenant sur la ligne choisie.') + rows;
+}
+
+/* ----- Schéma à compléter : document dont les cases [[k]] ↔ answers[k] ↔ data-slot="k" ----- */
+function renderSchema(ex) {
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const slot = k => `<div class="sch-slot ${droppable} ${EXUI.place[k] !== undefined ? 'filled' : ''}" data-slot="${k}">${
+    EXUI.place[k] !== undefined ? fr(esc(EXUI.place[k])) : '<span class="slot-empty">?</span>'}</div>`;
+  const body = fr(ex.tpl).replace(/\[\[(\d+)\]\]/g, (m, k) => slot(parseInt(k, 10)));
+  return renderBank(ex, 'Étiquettes à placer') + pickHint('Clique maintenant sur la case choisie.') +
+    `<div class="paper">${body}</div>`;
+}
+
+/* ----- Gestionnaires : EXUI.locked testé partout (13.11) ----- */
+function toggleSel(k) {
+  const pos = EXUI.sel.indexOf(k);
+  if (pos === -1) EXUI.sel.push(k); else EXUI.sel.splice(pos, 1);
+}
+
+function bindExercise(ex) {
+  const body = document.getElementById('exBody');
+  if (ex.type === 'numeric' || ex.type === 'grid') {
+    body.querySelectorAll('.num-input').forEach(el => {
+      el.oninput = () => { if (EXUI.locked) return; EXUI.vals[el.dataset.field] = el.value; refreshValidate(ex); };
+      el.onkeydown = e => { if (e.key === 'Enter' && !EXUI.locked && checkExercise(ex).ready) submitExercise(); };
+    });
+  }
+  if (ex.type === 'multi') {
+    body.querySelectorAll('[data-multi]').forEach(el => {
+      el.onclick = () => { if (EXUI.locked) return; toggleSel(parseInt(el.dataset.multi, 10)); paintExercise(ex); };
+    });
+  }
+  if (ex.type === 'erreurs') {
+    body.querySelectorAll('[data-seg]').forEach(el => {
+      el.onclick = () => { if (EXUI.locked) return; toggleSel(parseInt(el.dataset.seg, 10)); paintExercise(ex); };
+    });
+  }
+  if (ex.type === 'classer') {
+    body.querySelectorAll('.tag[data-tag]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked) return;
+        const k = parseInt(el.dataset.tag, 10);
+        EXUI.pick = EXUI.pick === k ? null : k;
+        paintExercise(ex);
+      };
+    });
+    body.querySelectorAll('.bin[data-bin]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked || EXUI.pick === null) return;
+        EXUI.place[EXUI.pick] = parseInt(el.dataset.bin, 10);
+        EXUI.pick = null;
+        paintExercise(ex);
+      };
+    });
+    /* Étiquette déjà placée : sans sélection → retour en réserve ;
+       avec sélection → on laisse le clic remonter à la colonne (dépôt) */
+    body.querySelectorAll('.tag[data-placed]').forEach(el => {
+      el.onclick = (evt) => {
+        if (EXUI.locked) return;
+        if (EXUI.pick !== null) return;        // surtout pas de stopPropagation ici
+        evt.stopPropagation();
+        delete EXUI.place[parseInt(el.dataset.placed, 10)];
+        paintExercise(ex);
+      };
+    });
+  }
+  if (ex.type === 'pairs' || ex.type === 'schema') {
+    body.querySelectorAll('.tag[data-bank]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked) return;
+        const w = el.dataset.bank;
+        EXUI.pick = EXUI.pick === w ? null : w;
+        paintExercise(ex);
+      };
+    });
+    /* Emplacement : avec sélection → dépôt ou remplacement ; sans sélection → retrait */
+    body.querySelectorAll('[data-slot]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked) return;
+        const k = parseInt(el.dataset.slot, 10);
+        if (EXUI.pick !== null) { EXUI.place[k] = EXUI.pick; EXUI.pick = null; }
+        else if (EXUI.place[k] !== undefined) { delete EXUI.place[k]; }
+        else return;
+        paintExercise(ex);
+      };
+    });
+  }
+}
+
+/* ----- Validation : ready, correct, ok/total (prorata 16.6), chaînes pour le Sheet ----- */
+const numOk = (v, attendu, tol) => !isNaN(v) && Math.abs(v - attendu) <= (tol || 0) + 1e-9;
+
+function checkExercise(ex) {
+  if (ex.type === 'numeric') {
+    const v = parseAmount(EXUI.vals[0]);
+    const good = numOk(v, ex.answer, ex.tolerance);
+    return {
+      ready: !isNaN(v), correct: good, ok: good ? 1 : 0, total: 1,
+      studentStr: isNaN(v) ? '?' : String(v), correctStr: String(ex.answer)
+    };
+  }
+  if (ex.type === 'grid') {
+    const vals = ex.fields.map((f, k) => parseAmount(EXUI.vals[k]));
+    const ok = ex.fields.filter((f, k) => numOk(vals[k], f.ans, f.tol)).length;
+    return {
+      ready: vals.every(v => !isNaN(v)),
+      correct: ok === ex.fields.length, ok, total: ex.fields.length,
+      studentStr: ex.fields.map((f, k) => `${f.key}:${isNaN(vals[k]) ? '?' : vals[k]}`).join(' | '),
+      correctStr: ex.fields.map(f => `${f.key}:${f.ans}`).join(' | ')
+    };
+  }
+  if (ex.type === 'multi') {
+    const good = EXUI.sel.filter(k => ex.multi.includes(k)).length;
+    const bad = EXUI.sel.length - good;
+    const chosen = EXUI.sel.slice().sort((a, b) => a - b);
+    return {
+      ready: EXUI.sel.length > 0,
+      correct: good === ex.multi.length && bad === 0,
+      ok: Math.max(0, good - bad), total: ex.multi.length,
+      studentStr: chosen.length ? chosen.map(k => ex.options[k]).join(' | ') : '(aucune)',
+      correctStr: ex.multi.map(k => ex.options[k]).join(' | ')
+    };
+  }
+  if (ex.type === 'erreurs') {
+    const attendus = ex.segments.map((s, i) => s.err ? i : -1).filter(i => i >= 0);
+    const choisis = EXUI.sel.slice().sort((a, b) => a - b);
+    const good = choisis.filter(i => attendus.includes(i)).length;
+    const bad = choisis.length - good;
+    const fmt = list => list.length ? list.map(i => 'P' + (i + 1)).join(', ') : '(aucune)';
+    return {
+      ready: true,
+      correct: choisis.length === attendus.length && attendus.every((i, k) => choisis[k] === i),
+      ok: Math.max(0, good - bad), total: attendus.length,
+      studentStr: fmt(choisis), correctStr: fmt(attendus)
+    };
+  }
+  if (ex.type === 'classer') {
+    const n = ex.items.length;
+    const ok = ex.items.filter((it, i) => EXUI.place[i] === it.b).length;
+    return {
+      ready: Object.keys(EXUI.place).length === n,
+      correct: ok === n, ok, total: n,
+      studentStr: ex.items.map((it, i) => `${it.t}:${EXUI.place[i] !== undefined ? ex.bins[EXUI.place[i]].name : '?'}`).join(' | '),
+      correctStr: ex.items.map(it => `${it.t}:${ex.bins[it.b].name}`).join(' | ')
+    };
+  }
+  if (ex.type === 'pairs') {
+    const n = ex.slots.length;
+    const ok = ex.slots.filter((s, k) => EXUI.place[k] === s.ans).length;
+    return {
+      ready: Object.keys(EXUI.place).length === n,
+      correct: ok === n, ok, total: n,
+      studentStr: ex.slots.map((s, k) => `${s.key || s.lbl}:${EXUI.place[k] !== undefined ? EXUI.place[k] : '?'}`).join(' | '),
+      correctStr: ex.slots.map(s => `${s.key || s.lbl}:${s.ans}`).join(' | ')
+    };
+  }
+  if (ex.type === 'schema') {
+    const n = ex.answers.length;
+    const ok = ex.answers.filter((a, k) => EXUI.place[k] === a).length;
+    const nom = k => (ex.labels && ex.labels[k]) || String(k + 1);
+    return {
+      ready: Object.keys(EXUI.place).length === n,
+      correct: ok === n, ok, total: n,
+      studentStr: ex.answers.map((a, k) => `${nom(k)}:${EXUI.place[k] !== undefined ? EXUI.place[k] : '?'}`).join(' | '),
+      correctStr: ex.answers.map((a, k) => `${nom(k)}:${a}`).join(' | ')
+    };
+  }
+  return { ready: false, correct: false, ok: 0, total: 1, studentStr: '', correctStr: '' };
+}
+
+function lockExInputs() {
+  EXUI.locked = true;
+  EXUI.pick = null;
+  document.querySelectorAll('.question-card input').forEach(inp => inp.disabled = true);
+  document.querySelectorAll('.question-card select').forEach(sel => sel.disabled = true);
+  document.querySelectorAll('.qcm-option').forEach(el => el.classList.add('locked'));
+}
+
+function submitExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  if (EXUI.locked || STATE.exAnswered[i]) return;
+  const r = checkExercise(ex);
+  if (!r.ready) return;
+  const max = maxTentatives(ex);
+  const attempt = ++STATE.exAttempts[i];
+  const points = r.correct ? ex.points : pointsPartiels(r.ok, r.total, ex.points);
+  STATE.exBest[i] = Math.max(STATE.exBest[i], points);
+  const timeTaken = secondsSince(STATE.questionStartTime);
+  STATE.exTimeSpent[i] += timeTaken;
+  STATE.questionStartTime = Date.now();
+
+  submitRow({
+    volet: 'Exercice',
+    partie: ex.partie,
+    question: stripHtml(ex.text),
+    reponse_eleve: `[${r.ok}/${r.total} corrects] ` + r.studentStr,   // décompte réservé au Sheet (16.6)
+    reponse_correcte: r.correctStr,
+    points: points,
+    points_max: ex.points,
+    tentative: attempt,
+    temps_secondes: timeTaken
+  });
+
+  // Retour strictement binaire : ni surlignage, ni décompte affiché (6.6 et 16.6)
+  const fb = document.getElementById('exFeedback');
+  const bonus = A_ITEMS.includes(ex.type) ? ' Tes bonnes réponses comptent quand même !' : ' On continue, courage !';
+  if (r.correct) {
+    fb.innerHTML = `<div class="feedback ok"><span class="fb-ico">✅</span><span>${pick1(["Bravo, c'est tout juste !", 'Parfait, tout est correct !', 'Excellent travail, tout est juste !'])}</span></div>`;
+    closeExercise(ex, attempt, false);
+  } else if (attempt < max) {
+    fb.innerHTML = `<div class="feedback retry"><span class="fb-ico">🔁</span><span>Ce n'est pas encore correct. Relis calmement et corrige ce qui doit l'être : tu as droit à un deuxième essai.</span></div>`;
+    updateAttemptInfo(ex);
+    saveProgress();
+  } else {
+    fb.innerHTML = `<div class="feedback ko"><span class="fb-ico">❌</span><span>${max === 1
+      ? "Ce n'est pas tout à fait correct. Cet exercice ne comptait qu'un seul essai."
+      : "Ce n'est pas encore correct, et tes deux essais sont utilisés."}${bonus}</span></div>`;
+    closeExercise(ex, attempt, false);
+  }
+}
+
+function closeExercise(ex, attempts, abandon) {
+  const i = STATE.currentEx;
+  STATE.exAnswered[i] = true;
+  STATE.exPoints += STATE.exBest[i];
+  STATE.exTime += STATE.exTimeSpent[i];
+  creditComp(ex, STATE.exBest[i], attempts, STATE.exTimeSpent[i], abandon);
+  lockExInputs();
+  paintExercise(ex);
+  document.getElementById('btnExValidate').hidden = true;
+  document.getElementById('btnExPass').hidden = true;
+  document.getElementById('btnExNext').hidden = false;
+  document.getElementById('exAttemptInfo').textContent = '';
+  saveProgress();
+  updateProgress();
+}
+
+function passExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  if (EXUI.locked || STATE.exAnswered[i]) return;
+  const btn = document.getElementById('btnExPass');
+  if (!EXUI.confirmPass) {
+    EXUI.confirmPass = true;
+    btn.textContent = 'Confirmer : passer cet exercice';
+    btn.classList.add('confirm');
+    return;
+  }
+  const attempts = STATE.exAttempts[i];
+  const timeTaken = secondsSince(STATE.questionStartTime);
+  STATE.exTimeSpent[i] += timeTaken;
+  submitRow({
+    volet: 'Exercice',
+    partie: ex.partie,
+    question: stripHtml(ex.text),
+    reponse_eleve: attempts ? `[Passé après ${attempts} tentative${attempts > 1 ? 's' : ''}]` : '[Passé]',
+    reponse_correcte: checkExercise(ex).correctStr,
+    points: STATE.exBest[i],              // points partiels de la meilleure tentative (6.8)
+    points_max: ex.points,
+    tentative: Math.max(1, attempts),
+    temps_secondes: timeTaken
+  });
+  closeExercise(ex, attempts, true);
+  nextExercise();
+}
+
+function nextExercise() {
+  if (STATE.currentEx < CONFIG.NB_EXERCICES - 1) {
+    STATE.currentEx++;
+    saveProgress();
+    renderExercise();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    finishEvaluation();
+  }
+}
+
+// ============================================================
+// COMPÉTENCES (section 16)
+// ============================================================
+const ptsOf = q => q.points || 1;          // une question de quiz vaut 1 point
+
+function initComp() {
+  STATE.comp = {};
+  Object.keys(COMPETENCES).forEach(c =>
+    STATE.comp[c] = { pts: 0, max: 0, nb: 0, reussi1: 0, abandons: 0, temps: 0 });
+  [...QUIZ.map(q => ({ ...q, points: 1 })), ...EXERCISES].forEach(q => {
+    const c = STATE.comp[q.comp]; if (!c) return;
+    c.max += ptsOf(q); c.nb++;
+  });
+}
+
+function creditComp(q, points, tentative, temps, abandon) {
+  const c = STATE.comp[q.comp]; if (!c) return;
+  c.pts += points; c.temps += temps;
+  if (abandon) c.abandons++;
+  else if (points === ptsOf(q) && tentative === 1) c.reussi1++;
+}
+
+function niveauComp(c) {
+  if (c.nb < 3) return 'Indice';
+  const taux = c.max ? c.pts / c.max : 0;
+  if (taux < 0.5) return 'Non acquis';
+  if (taux < 0.8) return 'En cours';
+  return (c.abandons > 0 || c.reussi1 / c.nb < 0.5) ? 'En cours' : 'Acquis';
+}
+
+function auditCompetences() {
+  const compte = {};
+  Object.keys(COMPETENCES).forEach(c => compte[c] = { nb: 0, types: new Set() });
+  [...QUIZ.map(q => ({ ...q, type: 'qcm' })), ...EXERCISES].forEach(q => {
+    if (!q.comp || !COMPETENCES[q.comp]) { console.warn('Question sans compétence :', q.id || q.text); return; }
+    compte[q.comp].nb++; compte[q.comp].types.add(q.type);
+  });
+  Object.entries(compte).forEach(([c, v]) => {
+    if (v.nb === 0)  console.warn(`${c} déclarée mais jamais mesurée — la retirer du référentiel`);
+    if (v.nb > 0 && v.nb < 3) console.warn(`${c} : ${v.nb} question(s) — affichée en « indice », pas en niveau`);
+    if (v.types.size === 1)   console.warn(`${c} : un seul type de question (${[...v.types]}) — voir règle 16.4-4`);
+  });
+}
+auditCompetences();
+
+const NIVEAUX = {
+  'Acquis':     { cls: 'acq', label: '✔ Acquis',     color: 'var(--green)',  phrase: 'Tu maîtrises !' },
+  'En cours':   { cls: 'enc', label: '~ En cours',    color: 'var(--orange)', phrase: "Tu comprends ; il te manque encore un peu d'entraînement." },
+  'Non acquis': { cls: 'non', label: '✗ À retravailler', color: 'var(--red)', phrase: 'À reprendre avec ton professeur.' },
+  'Indice':     { cls: 'ind', label: 'Indice',        color: 'var(--slate-light)', phrase: 'Pas assez de questions pour donner un niveau.' }
+};
+
+// ============================================================
+// FIN DE L'ÉVALUATION
+// ============================================================
+function finishEvaluation() {
+  stopTimer();
+  if (!STATE.finished) {
+    const totalPoints = STATE.quizPoints + STATE.exPoints;
+    submitRow({
+      volet: 'Exercice',
+      partie: 'TOTAL — Exercices',
+      question: '', reponse_eleve: '', reponse_correcte: '',
+      points: STATE.exPoints,
+      points_max: CONFIG.POINTS_EX,                 // barème 50 = 10 + 40
+      tentative: 1,
+      temps_secondes: STATE.exTime
+    });
+    submitRow({
+      volet: 'Évaluation',
+      partie: 'TOTAL — Évaluation',
+      question: '', reponse_eleve: '', reponse_correcte: '',
+      points: totalPoints,
+      points_max: CONFIG.POINTS_MAX,
+      tentative: 1,
+      temps_secondes: STATE.elapsed
+    });
+    // Étape 8 bis — lignes Synthèse, après TOTAL — Évaluation, avant complete_eval
+    Object.entries(STATE.comp).forEach(([code, c]) => {
+      if (c.nb === 0) return;
+      submitRow({
+        volet: 'Synthèse',
+        partie: `${code} — ${COMPETENCES[code].libelle}`,
+        question: String(c.nb),
+        reponse_eleve: niveauComp(c),
+        reponse_correcte: '',
+        points: c.pts, points_max: c.max,
+        tentative: c.reussi1,
+        temps_secondes: c.temps
+      });
+    });
+    postData({ action: 'complete_eval', email: STATE.email, app: CONFIG.APP_NAME });
+    STATE.finished = true;
+    STATE.phase = 'summary';
+    clearProgress();
+  }
+  renderSummary();
+}
+
+function renderSummary() {
+  const totalPoints = STATE.quizPoints + STATE.exPoints;
+  document.getElementById('totalScore').textContent = fmtPts(totalPoints);
+  document.getElementById('totalMax').textContent = `/ ${CONFIG.POINTS_MAX}`;
+  document.getElementById('quizScore').textContent = `${fmtPts(STATE.quizPoints)} / 10`;
+  document.getElementById('exScore').textContent = `${fmtPts(STATE.exPoints)} / ${CONFIG.POINTS_EX}`;
+  document.getElementById('timeScore').textContent = fmtTime(STATE.elapsed);
+
+  const rows = Object.entries(STATE.comp).filter(([, c]) => c.nb > 0);
+  document.getElementById('compList').innerHTML = rows.map(([code, c]) => {
+    const niv = NIVEAUX[niveauComp(c)];
+    const pct = c.max ? Math.round(c.pts / c.max * 100) : 0;
+    return `<div class="comp-row">
+      <div class="comp-name">${esc(COMPETENCES[code].libelle)}<span class="comp-pts">${fmtPts(c.pts)} / ${c.max}</span></div>
+      <span class="badge ${niv.cls}">${niv.label}</span>
+      <div class="comp-bar"><div class="comp-fill" style="width:${pct}%;background:${niv.color}"></div></div>
+      <div class="comp-phrase">${niv.phrase}</div>
+    </div>`;
+  }).join('');
+
+  // Trois priorités au maximum : où chercher, jamais quoi répondre (16.9)
+  const aRevoir = rows
+    .filter(([, c]) => ['Non acquis', 'En cours'].includes(niveauComp(c)))
+    .sort((a, b) => (a[1].pts / a[1].max) - (b[1].pts / b[1].max))
+    .slice(0, 3);
+  const forts = rows.filter(([, c]) => niveauComp(c) === 'Acquis');
+  let prio = aRevoir.map(([code]) =>
+    `<li>📌 <b>${esc(COMPETENCES[code].libelle)}</b><br><span class="small">À revoir dans ton cours : ${fr(esc(COMPETENCES[code].chapitre))}.</span></li>`).join('');
+  if (!aRevoir.length) prio = `<li class="good">🎉 Rien à reprendre : tu maîtrises toutes les compétences de cette évaluation. Continue comme ça !</li>`;
+  if (forts.length && aRevoir.length) {
+    prio += `<li class="good">💪 <b>Tes points forts :</b> ${forts.map(([code]) => esc(COMPETENCES[code].libelle.charAt(0).toLowerCase() + COMPETENCES[code].libelle.slice(1))).join(' ; ')}.</li>`;
+  }
+  document.getElementById('prioList').innerHTML = prio;
+  document.getElementById('btnPause').hidden = true;
+  updateProgress();
+  showScreen('screenSummary');
+}
+
+// ============================================================
+// ILLUSTRATIONS DES ÉCRANS
+// ============================================================
+document.getElementById('heroIllu').innerHTML = ILLU.hero;
+document.getElementById('doneIllu').innerHTML = ILLU.valide;
+document.getElementById('resumeIllu').innerHTML = ILLU.dossier;
+document.getElementById('pauseIllu').innerHTML = ILLU.pause;
+document.getElementById('lockedIllu').innerHTML = ILLU.cadenas;
+document.getElementById('transitionIllu').innerHTML = ILLU.dossier;
+document.getElementById('summaryIllu').innerHTML = ILLU.trophee;
+</script>
+</body>
+</html>
